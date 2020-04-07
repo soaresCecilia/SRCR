@@ -1,16 +1,6 @@
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Funções Auxiliares
 
-% Encontra todas as soluções
-solucoes(X, XS, R) :- XS, assert(tmp(X)), fail.
-solucoes(X, XS, R) :- solucoesAux([], R).
-
-solucoesAux(L, R) :- retract(tmp(X)), !, solucoesAux([X|L], R).
-solucoesAux(R, R).
-
-% Comprimento de uma lista
-comprimento([], 0).
-comprimento([_|XS], R) :- comprimento(XS, S), R is 1 + S.
 
 % Inserção de conhecimento
 insercao( Termo ) :-

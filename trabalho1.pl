@@ -2,8 +2,7 @@
 % SIST. REPR. CONHECIMENTO E RACIOCINIO - MiEI/3
 
 % Sistema de Representação de conhecimento e raciocínio com capacidade
-% para caracterizar um universo de discurso na área da prestação de
-% cuidados de saúde
+% para caracterizar um universo de contratos públicos
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % SICStus PROLOG: Declaracoes iniciais
@@ -19,7 +18,6 @@
 
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Carregar predicados do ficheiro no qual é guardado o estado
 
 :- include('funcoesAuxiliares.pl').
 
