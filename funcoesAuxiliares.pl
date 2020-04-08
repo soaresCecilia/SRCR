@@ -75,6 +75,6 @@ nifValido(Nif) :- comprimentoString(Nif, R), R == 9.
 custoValido(G) :- G >= 0.
 
 % Tipo de Procedimento ou é Ajuste Direto, Consulta Prévia ou Concurso Público.
-tipoProcedimentoValido("Ajuste Direto").
-tipoProcedimentoValido("Consulta Prévia").
-tipoProcedimentoValido("Concurso Público").
+tipoProcedimentoValido('Ajuste Direto').
+tipoProcedimentoValido('Consulta Prévia').
+tipoProcedimentoValido('Concurso Público').

@@ -19,6 +19,19 @@
 
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
+%       BASE CONHECIMENTO EXEMPLO
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+
+%    Adjudicante, Adjudicatario, TipoContrato, TipoProcedimento, Descricao, Valor, Prazo(dias), Local, Data
+%contrato(1,2,'aquisicao de servicos','Ajuste Direto','asserio',123,43,rua,(31,12,2020)).
+
+% id, nome, nif(9numeros), localidade
+%ajudicatario(2,laskd,'123456789',ka)
+
+% id, nome, nif, localidade
+%adjudicante(1,kaka,'987654321',jg).
+
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
 
 :- include('funcoesAuxiliares.pl').
 
@@ -82,7 +95,7 @@
 
 % Garantir que cada contrato é único
 +contrato(IdAd, IdAda, TipoContrato, TipoProcedimento, Descricao, Valor, Prazo, Local, Data) ::
-		(solucaoes((IdAd, IdAda, TipoContrato, TipoProcedimento, Descricao, Valor, Prazo, Local, Data),
+		(solucoes((IdAd, IdAda, TipoContrato, TipoProcedimento, Descricao, Valor, Prazo, Local, Data),
 				contrato(IdAd, IdAda, TipoContrato, TipoProcedimento, Descricao, Valor, Prazo, Local, Data), 
 				  L),
 		comprimento(L, 1)).
