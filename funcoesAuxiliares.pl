@@ -41,8 +41,12 @@ pertence( X,[Y|L] ) :- X \= Y, pertence( X,L ).
 solucoes( X,Y,Z ) :- findall( X,Y,Z ).
 
 
-% Verifica o comprimento.
+% Verifica o comprimento de uma lista
 comprimento( S,N ) :- length( S,N ).
+
+
+% Verifica o comprimento de uma String
+comprimentoString( S,N ) :- atom_length( S,N ).
 
 
 % Extensao do meta-predicado demo: Questao,Resposta -> {V,F}
@@ -64,8 +68,8 @@ Questao, !, fail.
 nao( Questao ).
 
 
-% Nif válido (com 9 digitos)
-nifValido(Nif) :- comprimento(Nif, R), R = 9.
+% Nif válido (com 9 digitos) ex: '123456789'
+nifValido(Nif) :- comprimentoString(Nif, R), R == 9.
 
 % Ganho ou custo válido (>= 0)
 custoValido(G) :- G >= 0.
