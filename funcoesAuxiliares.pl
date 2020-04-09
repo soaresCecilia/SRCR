@@ -76,3 +76,20 @@ custoValido(G) :- G >= 0.
 tipoProcedimentoValido('Ajuste Direto').
 tipoProcedimentoValido('Consulta Previa').
 tipoProcedimentoValido('Concurso Publico').
+
+
+% Contrato por ajuste direto tem de ter valor igual ou inferior a 5000 euros, tem de ter prazo até 365 dias e tem de ter uma finalidade específica.
+
+%ajusteDiretoValido(TC, TP, Custo, Prazo) :- TP == 'Ajuste Direto', tipoAjusteD(TC),
+ %                                           atom_number(Custo) =< 5000, prazoAjusteD(Prazo).
+%
+
+% Contrato por ajuste direto tem apenas três finalidade: aquisição ou locação de bens móveis ou aquisição de serviços.
+
+tipoAjusteD('Aquisicao de bens moveis').
+tipoAjusteD('Locacao de bens moveis').
+tipoAjusteD('Aquisicao de servicos').
+
+% Contrato por ajuste direto tem um prazo até 365 dias.
+
+prazoAjusteD(Prazo) :- Prazo =< 365.
