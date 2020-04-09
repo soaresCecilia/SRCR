@@ -41,12 +41,10 @@ pertence( X,[Y|L] ) :- X \= Y, pertence( X,L ).
 solucoes( X,Y,Z ) :- findall( X,Y,Z ).
 
 
-% Verifica o comprimento de uma lista
+% Verifica o comprimento do parametro S.
 comprimento( S,N ) :- length( S,N ).
 
 
-% Verifica o comprimento de uma String
-comprimentoString( S,N ) :- atom_length( S,N ).
 
 
 % Extensao do meta-predicado demo: Questao,Resposta -> {V,F}
@@ -69,12 +67,12 @@ nao( Questao ).
 
 
 % Nif válido (com 9 digitos) ex: '123456789'
-nifValido(Nif) :- comprimentoString(Nif, R), R == 9.
+nifValido(Nif) :- comprimento(Nif, R), R == 9.
 
 % Ganho ou custo válido (>= 0)
 custoValido(G) :- G >= 0.
 
 % Tipo de Procedimento ou é Ajuste Direto, Consulta Prévia ou Concurso Público.
 tipoProcedimentoValido('Ajuste Direto').
-tipoProcedimentoValido('Consulta Prévia').
-tipoProcedimentoValido('Concurso Público').
+tipoProcedimentoValido('Consulta Previa').
+tipoProcedimentoValido('Concurso Publico').

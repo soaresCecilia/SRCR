@@ -15,26 +15,15 @@
 :- dynamic adjudicante/4.
 :- dynamic adjudicatario/4.
 :- dynamic contrato/9.
-:- dynamic data/3.
 
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-%       BASE CONHECIMENTO EXEMPLO
-%--------------------------------- - - - - - - - - - -  -  -  -  -   -
 
-%    Adjudicante, Adjudicatario, TipoContrato, TipoProcedimento, Descricao, Valor, Prazo(dias), Local, Data
-%contrato(1,2,'aquisicao de servicos','Ajuste Direto','asserio',123,43,rua,(31,12,2020)).
-
-% id, nome, nif(9numeros), localidade
-%ajudicatario(2,laskd,'123456789',ka)
-
-% id, nome, nif, localidade
-%adjudicante(1,kaka,'987654321',jg).
-
-%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+:- include('baseConhecimento.pl').
 
 :- include('funcoesAuxiliares.pl').
 
+:- include('criteriosSeleccao.pl').
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Invariantes Estruturais e Referenciais
@@ -94,9 +83,9 @@
 %---------------------------------- Contratos ------------------------------------------------- 
 
 % Garantir que cada contrato é único
-+contrato(IdAd, IdAda, TipoContrato, TipoProcedimento, Descricao, Valor, Prazo, Local, Data) ::
-		(solucoes((IdAd, IdAda, TipoContrato, TipoProcedimento, Descricao, Valor, Prazo, Local, Data),
-				contrato(IdAd, IdAda, TipoContrato, TipoProcedimento, Descricao, Valor, Prazo, Local, Data), 
++contrato(IdContrato, IdAd, IdAda, TipoContrato, TipoProcedimento, Descricao, Valor, Prazo, Local, Data) ::
+		(solucoes((IdContrato, IdAd, IdAda, TipoContrato, TipoProcedimento, Descricao, Valor, Prazo, Local, Data),
+				contrato(IdContrato, IdAd, IdAda, TipoContrato, TipoProcedimento, Descricao, Valor, Prazo, Local, Data),
 				  L),
 		comprimento(L, 1)).
 
@@ -109,13 +98,13 @@
 
 % Garantir que não é possível remover um contrato associado a um adjudicatário
 
--contrato(_,IdAdjudicatario,_,_,_,_,_,_,_) :: (solucoes(IdAdjudicatario, adjudicatario(IdAdjudicatario,_,_,_), L),
+-contrato(_,_,IdAdjudicatario,_,_,_,_,_,_,_) :: (solucoes(IdAdjudicatario, adjudicatario(IdAdjudicatario,_,_,_), L),
 											comprimento(L, 0)).
 
 
 % Garantir que o tipo de procedimento é válido.
 
-+contrato(_,_,_,TP,_,_,_,_,_) :: tipoProcedimentoValido(TP).
++contrato(_,_,_,_,TP,_,_,_,_,_) :: tipoProcedimentoValido(TP).
 
 
 
@@ -126,22 +115,18 @@ novoAdjudicatario(Id,Nome,Nif, Morada) :- evolucao(adjudicatario(Id, Nome,Nif, M
 
 novoAdjudicante(Id,Nome,Nif, Morada) :- evolucao(adjudicante(Id,Nome,Nif, Morada)).
 
-novoContrato(IdAd,IdAda,TC,TP,Desc,Valor,Prazo,Local,Data) :- evolucao(contrato(IdAd,IdAda,TC,TP,Desc,Valor,Prazo,Local,Data)).
+novoContrato(IdC, IdAd,IdAda,TC,TP,Desc,Valor,Prazo,Local,Data) :- evolucao(contrato(IdC, IdAd,IdAda,TC,TP,Desc,Valor,Prazo,Local,Data)).
 
 
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Remover adjudicatarios, adjudicantes e contratos.
 
-%Devolve Adjudicante por Id do mesmo.
-adjudicanteID(Id, L) :- solucoes(adjudicante(Id, Nome,Nif, Morada), adjudicante(Id,Nome,Nif,  Morada), L).
-
 removeAdjudicante(Id) :- adjudicanteID(Id,[X|_]), involucao(X).
 
 
-
-adjudicatarioID(Id, L) :- solucoes(adjudicatario(Id,Nome,Nif,  Morada), adjudicatario(Id, Nome,Nif, Morada), L).
-
 removeAdjudicatario(Id) :- adjudicatarioID(Id,[X|_]), involucao(X).
 
+
+removeContrato(Id) :- contratoID(Id,[X|_]), involucao(X).
 
