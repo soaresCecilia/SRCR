@@ -14,7 +14,7 @@
 :- op(900,xfy,'::').
 :- dynamic adjudicante/4.
 :- dynamic adjudicatario/4.
-:- dynamic contrato/9.
+:- dynamic contrato/10.
 
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
@@ -49,7 +49,7 @@
 
 % Garantir que não é possível remover um adjudicatario que celebrou contratos públicos.
 
--adjudicatario(Id,_,_,_,_) :: (solucoes(Id, contrato(_,Id,_,_,_,_,_,_,_), L),
+-adjudicatario(Id,_,_,_,_) :: (solucoes(Id, contrato(_,_,Id,_,_,_,_,_,_,_), L),
 								comprimento(L, 0)).
 
 
@@ -75,7 +75,7 @@
 
 % Garantir que não é possível remover um adjudicante que celebrou contratos públicos.
 
--adjudicante(Id,_,_,_) :: (solucoes(Id, contrato(_,Id,_,_,_,_,_,_,_), L),
+-adjudicante(Id,_,_,_) :: (solucoes(Id, contrato(_,_,Id,_,_,_,_,_,_,_), L),
 							comprimento(L, 0)).
 
 
@@ -109,7 +109,8 @@
 
 % Garantir que um contrato por ajuste direto tem valor igual ou inferior a 5000 euros, tem prazo de vigência de um ano a contar da data da adjudicação e que se refere apenas a contrato de aquisição ou locação de bens móveis ou aquisição de serviços.
 
-% VERIFY: +contrato(IdC,IdAd,IdAda,TC,TP,Des,Custo,P,Local,Data) :: ajusteDiretoValido(TC, TP, Custo, Prazo).
+% VERIFY: 
++contrato(IdC,IdAd,IdAda,TC,TP,Des,Custo,P,Local,Data) :: ajusteDiretoValido(TC, TP, Custo, Prazo).
 
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -

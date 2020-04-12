@@ -66,7 +66,7 @@ Questao, !, fail.
 nao( Questao ).
 
 
-% Nif válido (com 9 digitos) ex: '123456789'
+% Nif válido (com 9 digitos) ex: "123456789"
 nifValido(Nif) :- comprimento(Nif, R), R == 9.
 
 % Ganho ou custo válido (>= 0)
@@ -80,8 +80,8 @@ tipoProcedimentoValido('Concurso Publico').
 
 % Contrato por ajuste direto tem de ter valor igual ou inferior a 5000 euros, tem de ter prazo até 365 dias e tem de ter uma finalidade específica.
 
-%ajusteDiretoValido(TC, TP, Custo, Prazo) :- TP == 'Ajuste Direto', tipoAjusteD(TC),
- %                                           atom_number(Custo) =< 5000, prazoAjusteD(Prazo).
+ajusteDiretoValido(TC, TP, Custo, Prazo) :- TP == 'Ajuste Direto', tipoAjusteD(TC),
+                                           atom_number(Custo) =< 5000, prazoAjusteD(Prazo).
 %
 
 % Contrato por ajuste direto tem apenas três finalidade: aquisição ou locação de bens móveis ou aquisição de serviços.
