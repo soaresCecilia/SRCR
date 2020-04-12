@@ -14,42 +14,41 @@
 :- op(900,xfy,'::').
 :- dynamic adjudicante/4.
 :- dynamic adjudicatario/4.
-:- dynamic contrato/9.
+:- dynamic contrato/10.
 
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 
 :- include('baseConhecimento.pl').
 
-:- include('funcoesAuxiliares.pl').
-
 :- include('criteriosSeleccao.pl').
 
+
+
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
+
 % Invariantes Estruturais e Referenciais
 
 %--------- Adjudicatarios
 
 % Garantir que o id de cada adjudicatario é único
 
-+adjudicatario(Id,Nome, Nif, Morada) :: (solucoes(Id, adjudicatario(Id,_,_,_), L),
-										comprimento(L, 1)).
++adjudicatario(Id,Nome, Nif, Morada) :: (solucoes(Id, adjudicatario(Id,_,_,_), L), comprimento(L, 1)).
 
 
 % Garantir que adjudicatarios com ids diferentes têm diferente informação
 
-+adjudicatario(Id,Nome,Nif, Morada) :: (solucoes((Nome, Nif, Morada), adjudicatario(_,Nome, Nif, Morada), L),
-										comprimento(L, 1)).
++adjudicatario(Id,Nome,Nif, Morada) :: (solucoes((Nome, Nif, Morada), adjudicatario(_,Nome, Nif, Morada), L), comprimento(L, 1)).
 
 
 %Garantir que o Nif do adjudicatário é válido.
 
-+adjudicatario(_,_, Nif, _) :: nifValido(Nif).
+%+adjudicatario(_,_, Nif, _) :: nifValido(Nif).
 
 
 % Garantir que não é possível remover um adjudicatario que celebrou contratos públicos.
 
--adjudicatario(Id,_,_,_,_) :: (solucoes(Id, contrato(_,Id,_,_,_,_,_,_,_), L),
+-adjudicatario(Id,_,_,_,_) :: (solucoes(Id, contrato(_,_,Id,_,_,_,_,_,_,_), L),
 								comprimento(L, 0)).
 
 
@@ -70,12 +69,12 @@
 
 %Garantir que o Nif do adjudicatário é válido.
 
-+adjudicante(_,_, Nif, _) :: nifValido(Nif).
+%+adjudicante(_,_, Nif, _) :: nifValido(Nif).
 
 
 % Garantir que não é possível remover um adjudicante que celebrou contratos públicos.
 
--adjudicante(Id,_,_,_) :: (solucoes(Id, contrato(_,Id,_,_,_,_,_,_,_), L),
+-adjudicante(Id,_,_,_) :: (solucoes(Id, contrato(_,Id,_,_,_,_,_,_,_,_), L),
 							comprimento(L, 0)).
 
 
@@ -92,7 +91,7 @@
 
 % Garantir que não é possível remover um contrato associado a um adjudicante
 
--contrato(IdAdjudicante,_,_,_,_,_,_,_,_) :: (solucoes(IdAdjudicante, adjudicante(IdAdjudicante,_,_,_), L),
+-contrato(_,IdAdjudicante,_,_,_,_,_,_,_,_) :: (solucoes(IdAdjudicante, adjudicante(IdAdjudicante,_,_,_), L),
 										comprimento(L, 0)).
 
 

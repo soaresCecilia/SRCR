@@ -67,7 +67,7 @@ nao( Questao ).
 
 
 % Nif válido (com 9 digitos) ex: '123456789'
-nifValido(Nif) :- comprimento(Nif, R), R == 9.
+%nifValido(Nif) :- comprimento(Nif, R), R == 9.
 
 % Ganho ou custo válido (>= 0)
 custoValido(G) :- G >= 0.
