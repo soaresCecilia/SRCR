@@ -23,7 +23,7 @@
 
 :- include('criteriosSeleccao.pl').
 
-
+:- include('funcoesAuxiliares').
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 
@@ -108,7 +108,8 @@
 
 % Garantir que um contrato por ajuste direto tem valor igual ou inferior a 5000 euros, tem prazo de vigência de um ano a contar da data da adjudicação e que se refere apenas a contrato de aquisição ou locação de bens móveis ou aquisição de serviços.
 
-% VERIFY: +contrato(IdC,IdAd,IdAda,TC,TP,Des,Custo,P,Local,Data) :: ajusteDiretoValido(TC, TP, Custo, Prazo).
+% VERIFY: 
+%+contrato(IdC,IdAd,IdAda,TC,TP,Des,Custo,P,Local,Data) :: ajusteDiretoValido(TC, TP, Custo, Prazo).
 
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
