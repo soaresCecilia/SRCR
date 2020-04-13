@@ -4,33 +4,33 @@
 
 %----adjudicantes
 
-adjudicante('700700707','Ministerio dos Negocios Estrangeiros', "600014576", 'Largo do Rilvas, Lisboa').
+adjudicante('700700707','Ministerio dos Negocios Estrangeiros', '600014576', 'Largo do Rilvas, Lisboa').
 
-adjudicante('707070707', 'Municipio de Guimaraes', "505948605", 'Largo Conego Jose Maria Gomes, Guimaraes').
+adjudicante('707070707', 'Municipio de Guimaraes', '505948605', 'Largo Conego Jose Maria Gomes, Guimaraes').
 
-adjudicante('700500600', 'Banco de Portugal', "500792771", 'Rua do Comercio, Lisboa').
+adjudicante('700500600', 'Banco de Portugal', '500792771', 'Rua do Comercio, Lisboa').
 
-adjudicante('700500601','Santa Casa da Misericordia de Lisboa', "500745471", 'Largo Trindade Coelho, Lisboa').
+adjudicante('700500601','Santa Casa da Misericordia de Lisboa', '500745471', 'Largo Trindade Coelho, Lisboa').
 
 
-adjudicante('700500602', 'Direccao Regional dos Assuntos do Mar', "600085899",'Rua D. Pedro IV, 29, Horta').
+adjudicante('700500602', 'Direccao Regional dos Assuntos do Mar', '600085899','Rua D. Pedro IV, 29, Horta').
 
-adjudicante('700500603', 'Instituto Portugues de Oncologia', "506362299", 'Rua Dr. Antonio Bernardino de Almeida').
+adjudicante('700500603', 'Instituto Portugues de Oncologia', '506362299', 'Rua Dr. Antonio Bernardino de Almeida').
 
-adjudicante('700500650', 'Centro Hospitalar Universitario de Lisboa', "508080142", 'Alameda Santo Antonio dos Capuchos, Lisboa').
+adjudicante('700500650', 'Centro Hospitalar Universitario de Lisboa', '508080142', 'Alameda Santo Antonio dos Capuchos, Lisboa').
 
 %----Adjudicatários
 
 
-adjudicatario('100100100','JOHNSON & JOHNSON VISION', "500153370", 'Lagoas Park, Ed.9, Oeiras').
+adjudicatario('100100100','JOHNSON & JOHNSON VISION', '500153370', 'Lagoas Park, Ed.9, Oeiras').
 
-adjudicatario('100100101', 'Seguradoras Unidas, S.A.,', "500940231", 'Av. da Liberdade, Lisboa').
+adjudicatario('100100101', 'Seguradoras Unidas, S.A.,', '500940231', 'Av. da Liberdade, Lisboa').
 
-adjudicatario('100100102', 'CISEC, S.A', "500205698",'Rua Dom Nuno Alvares Pereira, Faro').
+adjudicatario('100100102', 'CISEC, S.A', '500205698','Rua Dom Nuno Alvares Pereira, Faro').
 
-adjudicatario('100100103','Drager', "508771323", 'Rua Nossa Senhora da Conceicao, Carnaxide').
+adjudicatario('100100103','Drager', '508771323', 'Rua Nossa Senhora da Conceicao, Carnaxide').
 
-adjudicatario('100100104', 'Pamafe Informatica, Lda', "504099388", 'Rua do Crasto, 194, Porto').
+adjudicatario('100100104', 'Pamafe Informatica, Lda', '504099388', 'Rua do Crasto, 194, Porto').
 
 
 %-----Contratos
