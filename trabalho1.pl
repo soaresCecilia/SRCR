@@ -23,7 +23,7 @@
 
 :- include('criteriosSeleccao.pl').
 
-:- include('funcoesAuxiliares').
+:- include('funcoesAuxiliares.pl').
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 
