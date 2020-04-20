@@ -81,7 +81,7 @@ prazoAjusteD(Prazo) :- Prazo =< 365.
 % Contrato por ajuste direto tem de ter valor igual ou inferior a 5000 euros, tem de ter prazo até 365 dias e tem de ter uma finalidade específica.
 
 ajusteDiretoValido(TC, TP, Custo, Prazo) :- TP == 'Ajuste Direto', tipoAjusteD(TC),
-                                           atom_number(Custo) =< 5000, prazoAjusteD(Prazo).
-%
+                                           Custo =< 5000, prazoAjusteD(Prazo).
+
 
 
