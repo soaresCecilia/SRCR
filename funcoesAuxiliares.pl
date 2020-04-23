@@ -86,7 +86,7 @@ ajusteDiretoValido(TC, TP, Custo, Prazo) :- TP == 'Ajuste Direto', tipoAjusteD(T
 
 % Contrato entre o mesmo Adjudicante e Adjudicatario, com o mesmo tipo de Contrato, e valor de contratos nos 3 anos economicos (incluindo o atual) anteriores, não pode ultrapasaar os 75000 euros
 	
-	
+
 
 %ex: encontrarContratosA0('700500601','100100103','Aquisicao de servicos',_-_-2021,CS).
 % FUNCIONAM
@@ -116,14 +116,14 @@ calculaValorTotal(CS, VT) :- soma(CS,VT).
 
 
 %Confirma se valor total encontrado mais o que queremos inserir é válido
-confirmaValor(VT,Custo) :- R is VT+Custo, R =<75000.
+confirmaValor(Valor) :- Valor =<75000.
 
 
 %regraTresAnos('700500601','100100103','Aquisicao de servicos',5000,_-_-2021).
 %encontrarTudo('700500601','100100103','Aquisicao de servicos',_-_-2021,CS),calculaValorTotal(CS, VT), confirmaValor(VT,100000). dá bem.
 %encontrarTudo('700500601','100100103','Aquisicao de servicos',_-_-2021,CS),calculaValorTotal(CS, VT), confirmaValor(VT,1000). dá mal.
-%regraTresAnos('700500601','100100103','Aquisicao de servicos',5000,_-_-2021). resultado esperado Ok
+%regraTresAnos('700500601','100100103','Aquisicao de servicos',5000,_-_-2021). resultado esperado yes
 %regraTresAnos('700500601','100100103','Aquisicao de servicos',5000000,_-_-2021). resultado esperado No
 
-regraTresAnos(IdAd, IdAda, TC, Custo, Data) :- encontrarTudo(IdAd, IdAda, TC, Custo, Data, CS), calculaValorTotal(CS, VT), confirmaValor(VT,Custo).
+regraTresAnos(IdAd, IdAda, TC, Custo, Data) :- encontrarTudo(IdAd, IdAda, TC, Custo, Data, CS), calculaValorTotal(CS, VT), confirmaValor(VT+Custo).
 
