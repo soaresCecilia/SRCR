@@ -111,6 +111,20 @@
 +contrato(IdC,IdAd,IdAda,TC,TP,Des,Custo,Prazo,Local,Data) :: ajusteDiretoValido(TC, TP, Custo, Prazo).
 
 
+
+% garantir que a mesma empresa não pode celebrar um contrato com prestações de serviço com mesmo tipo ou idênticas às de contratos que
+% já lhe foram atribuídos, n _o  ano económico em curso e nos dois anos económicos
+% anteriores, sempre que: O preço contratual acumulado dos contratos já celebrados (não incluindo o
+% contrato que se pretende celebrar) seja igual ou superior a 75.000 euros
+
+%+contrato(IdC,IdAd,IdAda,TC,TP,Des,Custo,Prazo,Local,Data) :: regraTresAnos(IdAd, IdAda, TC, Custo, Data).
+
+
+
+
+
+
+
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Adicionar adjudicatarios, adjudicantes e contratos.
 

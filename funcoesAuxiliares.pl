@@ -84,4 +84,21 @@ ajusteDiretoValido(TC, TP, Custo, Prazo) :- TP == 'Ajuste Direto', tipoAjusteD(T
                                            Custo =< 5000, prazoAjusteD(Prazo).
 
 
+% Contrato entre o mesmo Adjudicante e Adjudicatario, com o mesmo tipo de Contrato, e valor de contratos nos 3 anos economicos (incluindo o atual) anteriores, não pode ultrapasaar os 75000 euros
+												
+
+encontraContratosA0(IdAd,IdAda,TC,D-M-A, CS) :- solucoes(contrato(_,IdAd,IdAda,TC,_,_,Valor,_,_,D-M-A),(contrato(_,IdAd,IdAda,TC,_,_,Valor,_,_,D-M-A)),CS).
+encontraContratosA1(IdAd,IdAda,TC,D-M-A, CS) :- A3 is A-1, solucoes(contrato(_,IdAd,IdAda,TC,_,_,Valor,_,_,D-M-A3),(contrato(_,IdAd,IdAda,TC,_,_,Valor,_,_,D-M-A3)),CS).
+encontraContratosA2(IdAd,IdAda,TC,D-M-A, CS) :- A3 is A-2, solucoes(contrato(_,IdAd,IdAda,TC,_,_,Valor,_,_,D-M-A3),(contrato(_,IdAd,IdAda,TC,_,_,Valor,_,_,D-M-A3)),CS).
+
+
+soma([],0).
+soma([contrato(_,_,_,_,_,_,Valor,_,_,_)|XS],Total) :- soma(XS, Acumulado), Total is Valor + Acumulado.
+
+calculaValorTotal(CS, VT) :- soma(CS,VT).
+
+
+regraTresAnos(IdAd, IdAda, TC, Custo, Data) :- encontraContratosA0(IdAd,IdAda,TC,Data, CS), encontraContratosA1(IdAd,IdAda,TC,Data, CS), encontraContratosA2(IdAd,IdAda,TC,Data, CS),
+													calculaValorTotal(CS, VT),
+															 (VT+Custo) =< 75000.
 
