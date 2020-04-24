@@ -45,6 +45,9 @@ contrato(2,'707070707','100100104' , 'Aquisicao de bens', 'Concurso Publico', 'A
 contrato(3,'700500650','100100100', 'Aquisicao de bens', 'Concurso Publico', 'Consumiveis para cirurgia catarata,vitrectomia e combinada', 93360.00, 100, 'Alameda Santo Antonio dos Capuchos, Lisboa', 09-04-2020).
 
 
+
+
+
 contrato(4,'700500601','100100103','Aquisicao de servicos', 'Concurso Publico', 'Aquisicao de servicos de manutencao preventiva, corretiva e assistencia tecnica aos equipamentos de ventilacao', 5000, 45, 'Edificio da Santa Casa da Misericordia de Lisboa', 09-04-2019).
 
 contrato(5,'700500601','100100103','Aquisicao de servicos', 'Concurso Publico', 'Aquisicao de servicos de manutencao preventiva, corretiva e assistencia tecnica aos equipamentos de ventilacao', 5000, 45, 'Edificio da Santa Casa da Misericordia de Lisboa', 09-04-2020).
