@@ -108,7 +108,7 @@
 
 % Garantir que um contrato por ajuste direto tem valor igual ou inferior a 5000 euros, tem prazo de vigência de um ano a contar da data da adjudicação e que se refere apenas a contrato de aquisição ou locação de bens móveis ou aquisição de serviços.
  
-+contrato(IdC,IdAd,IdAda,TC,TP,Des,Custo,Prazo,Local,Data) :: ajusteDiretoValido(TC, TP, Custo, Prazo).
+%+contrato(IdC,IdAd,IdAda,TC,TP,Des,Custo,Prazo,Local,Data) :: ajusteDiretoValido(TC, TP, Custo, Prazo).
 
 
 
@@ -118,7 +118,10 @@
 % contrato que se pretende celebrar) seja igual ou superior a 75.000 euros
 
 %VERIFY ! ! !
-%+contrato(IdC,IdAd,IdAda,TC,TP,Des,Custo,Prazo,Local,Data) :: regraTresAnos(IdAd, IdAda, TC, Custo, Data).
+
+
+
++contrato(IdC,IdAd,IdAda,TC,TP,Des,Custo,Prazo,Local,Data) :: regraTresAnos(IdAd, IdAda, TC, Custo, Data).
 
 
 

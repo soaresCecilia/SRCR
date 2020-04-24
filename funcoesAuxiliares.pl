@@ -88,7 +88,7 @@ ajusteDiretoValido(TC, TP, Custo, Prazo) :- TP == 'Ajuste Direto', tipoAjusteD(T
 	
 
 
-%ex: encontrarContratosA0('700500601','100100103','Aquisicao de servicos',_-_-2021,CS).
+%ex: encontraContratosA2('700500601','100100103','Aquisicao de servicos',_-_-2021,CS).
 % FUNCIONAM
 encontraContratosA0(IdAd,IdAda,TC,D-M-A, CS) :- solucoes(contrato(_,IdAd,IdAda,TC,_,_,Valor,_,_,D-M-A),(contrato(_,IdAd,IdAda,TC,_,_,Valor,_,_,D-M-A)),CS).
 encontraContratosA1(IdAd,IdAda,TC,D-M-A, CS) :- A3 is A-1, solucoes(contrato(_,IdAd,IdAda,TC,_,_,Valor,_,_,D-M-A3),(contrato(_,IdAd,IdAda,TC,_,_,Valor,_,_,D-M-A3)),CS).
@@ -102,6 +102,8 @@ concat([X|XS1], R, [X|XS2]) :- concat(XS1, R, XS2).
 
 % ex: encontrarTudo('700500601','100100103','Aquisicao de servicos',_-_-2021,CS).
 %VERSAO QUE já FUNCIONA
+
+
 encontrarTudo(IdAd,IdAda,TC,D-M-A, CS) :- encontraContratosA0(IdAd,IdAda,TC,D-M-A, CS0), encontraContratosA1(IdAd,IdAda,TC,D-M-A, CS1), concat(CS0,CS1,CSR),encontraContratosA2(IdAd,IdAda,TC,D-M-A, CS2), concat(CSR,CS2,CS).
 
 
@@ -120,10 +122,11 @@ confirmaValor(Valor) :- Valor =<75000.
 
 
 %regraTresAnos('700500601','100100103','Aquisicao de servicos',5000,_-_-2021).
-%encontrarTudo('700500601','100100103','Aquisicao de servicos',_-_-2021,CS),calculaValorTotal(CS, VT), confirmaValor(VT,100000). dá bem.
-%encontrarTudo('700500601','100100103','Aquisicao de servicos',_-_-2021,CS),calculaValorTotal(CS, VT), confirmaValor(VT,1000). dá mal.
+%encontrarTudo('700500601','100100103','Aquisicao de servicos',_-_-2021,CS),calculaValorTotal(CS, VT), confirmaValor(VT+100000). dá bem.
+%encontrarTudo('700500601','100100103','Aquisicao de servicos',_-_-2021,CS),calculaValorTotal(CS, VT), confirmaValor(VT+1000). dá mal.
 %regraTresAnos('700500601','100100103','Aquisicao de servicos',5000,_-_-2021). resultado esperado yes
 %regraTresAnos('700500601','100100103','Aquisicao de servicos',5000000,_-_-2021). resultado esperado No
 
-regraTresAnos(IdAd, IdAda, TC, Custo, Data) :- encontrarTudo(IdAd, IdAda, TC, Custo, Data, CS), calculaValorTotal(CS, VT), confirmaValor(VT+Custo).
+
+regraTresAnos(IdAd, IdAda, TC, Custo, Data) :- encontrarTudo(IdAd, IdAda, TC, Data, CS), calculaValorTotal(CS, VT), confirmaValor(VT+Custo).
 
