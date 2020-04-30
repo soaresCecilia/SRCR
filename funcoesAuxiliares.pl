@@ -34,6 +34,8 @@ solucoes( X,Y,Z ) :- findall( X,Y,Z ).
 % Verifica o comprimento do parametro S.
 comprimento( S,N ) :- length( S,N ).
 
+comprimentoAtom(S,N) :- atom_length(S,N).
+
 
 
 
@@ -62,7 +64,7 @@ validaData(D,M,A) :- mes31Dias(D,M);mes30Dias(D,M);mes29Dias(D,M).
 
 
 % Nif válido (com 9 digitos) ex: "123456789"
-nifValido(Nif) :- comprimento(Nif, R), R == 9.
+nifValido(Nif) :- comprimentoAtom(Nif, R), R == 9.
 
 
 % Ganho ou custo válido (> 0) tem de ser maior do que zero.
