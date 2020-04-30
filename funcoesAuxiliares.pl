@@ -107,7 +107,7 @@ ajusteDiretoValido(TC, Custo, Prazo) :- tipoAjusteD(TC),
 % Contrato entre o mesmo Adjudicante e Adjudicatario, com o mesmo tipo de Contrato, e valor de contratos nos 3 anos economicos (incluindo o atual) anteriores, não pode ultrapasaar os 75000 euros
 	
 
-%ex: encontraContratosA2('700500601','100100103','Aquisicao de servicos',data(_,_,2021),CS).
+%ex: encontraContratosA2('700500601','100100103','Construcao','Aquisicao de servicos',data(_,_,2021),CS).
 encontraContratosA0(IdAd,IdAda,AE,TC,data(D,M,A), CS) :- solucoes(contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A)),(contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A))),CS).
 encontraContratosA1(IdAd,IdAda,AE,TC,data(D,M,A), CS) :- A2 is A-1, solucoes(contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A2)),(contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A2))),CS).
 encontraContratosA2(IdAd,IdAda,AE,TC,data(D,M,A), CS) :- A3 is A-2, solucoes(contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A3)),(contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A3))),CS).
@@ -116,7 +116,7 @@ encontraContratosA2(IdAd,IdAda,AE,TC,data(D,M,A), CS) :- A3 is A-2, solucoes(con
 concat([], R, R).
 concat([X|XS1], R, [X|XS2]) :- concat(XS1, R, XS2).
 
-% ex: encontrarTudo('700500601','100100103','Aquisicao de servicos',data(_,_,2021),CS).
+% ex: encontrarTudo('700500601','100100103','Construcao','Aquisicao de servicos',data(_,_,2021),CS).
 encontrarTudo(IdAd,IdAda,AE,TC,Data, CS) :- encontraContratosA0(IdAd,IdAda,AE,TC,Data, CS0), encontraContratosA1(IdAd,IdAda,AE,TC,Data, CS1), concat(CS0,CS1,CSR),encontraContratosA2(IdAd,IdAda,AE,TC,Data, CS2), concat(CSR,CS2,CS).
 
 % somatorio dos elementos da lista ex: [1,2,3,4],S ======= 10
@@ -129,11 +129,9 @@ calculaValorTotal(CS, VT) :- soma(CS,VT).
 %Confirma se valor total encontrado mais o que queremos inserir é válido
 confirmaValor(Valor) :- Valor =<75000.
 
-%regraTresAnos('700500601','100100103','Aquisicao de servicos',5000,data(_,_,2021)).
-%encontrarTudo('700500601','100100103','Aquisicao de servicos',data(_,_,2021),CS),calculaValorTotal(CS, VT), confirmaValor(VT+100000). 
-%encontrarTudo('700500601','100100103','Aquisicao de servicos',data(_,_,2021),CS),calculaValorTotal(CS, VT), confirmaValor(VT+1000). 
-%regraTresAnos('700500601','100100103','Aquisicao de servicos',5000,data(_,_,2021)). resultado esperado yes
-%regraTresAnos('700500601','100100103','Aquisicao de servicos',5000000,data(_,_,2021)). resultado esperado No
+ 
+%regraTresAnos('700500601','100100103','Construcao','Aquisicao de servicos',5000,data(_,_,2021)). resultado esperado yes
+%regraTresAnos('700500601','100100103','Construcao','Aquisicao de servicos',5000000,data(_,_,2021)). resultado esperado No
 
 regraTresAnos(IdAd, IdAda, AEco, TC, Custo, Data) :- encontrarTudo(IdAd, IdAda, AEco, TC, Data, CS), calculaValorTotal(CS, VT), confirmaValor(VT+Custo).
 
