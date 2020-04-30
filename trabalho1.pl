@@ -12,9 +12,10 @@
 :- set_prolog_flag( unknown,fail ).
 
 :- op(900,xfy,'::').
-:- dynamic adjudicante/4.
-:- dynamic adjudicatario/4.
-:- dynamic contrato/10.
+:- dynamic adjudicante/4.     /* */
+:- dynamic adjudicatario/4.	  /* */
+:- dynamic contrato/10.       /* */
+:- dynamic data/3.            /* (Dia-Mes-Ano) */
 
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
@@ -29,7 +30,8 @@
 
 % Invariantes Estruturais e Referenciais
 
-%--------- Adjudicatarios
+
+%--------------------------------- Adjudictarios -----------------------------------------------
 
 % Garantir que o id de cada adjudicatario é único
 
@@ -87,6 +89,10 @@
 				contrato(IdContrato, IdAd, IdAda, TipoContrato, TipoProcedimento, Descricao, Valor, Prazo, Local, Data),
 				  L),
 		comprimento(L, 1)).
+
+% Garantir que a data do contrato inseirdo é válida
+
++contrato(_,_,_,_,_,_,_,_,_,data(Dia,Mes,Ano)) :: validaData(Dia,Mes,Ano).
 
 
 % Garantir que não é possível remover um contrato associado a um adjudicante

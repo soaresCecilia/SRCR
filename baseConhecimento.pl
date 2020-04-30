@@ -48,7 +48,7 @@ contrato(3,'700500650','100100100', 'Aquisicao de bens', 'Concurso Publico', 'Co
 
 
 
-contrato(4,'700500601','100100103','Aquisicao de servicos', 'Concurso Publico', 'Aquisicao de servicos de manutencao preventiva, corretiva e assistencia tecnica aos equipamentos de ventilacao', 5000, 45, 'Edificio da Santa Casa da Misericordia de Lisboa', 09-04-2019).
+contrato(4,'700500601','100100103','Aquisicao de servicos', 'Concurso Publico', 'Aquisicao de servicos de manutencao preventiva, corretiva e assistencia tecnica aos equipamentos de ventilacao', 5000, 45, 'Edificio da Santa Casa da Misericordia de Lisboa', data(09,04,2019)).
 
 contrato(5,'700500601','100100103','Aquisicao de servicos', 'Concurso Publico', 'Aquisicao de servicos de manutencao preventiva, corretiva e assistencia tecnica aos equipamentos de ventilacao', 5000, 45, 'Edificio da Santa Casa da Misericordia de Lisboa', 09-04-2020).
 
