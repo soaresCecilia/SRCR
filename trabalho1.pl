@@ -124,7 +124,7 @@
 % anteriores, sempre que: O preço contratual acumulado dos contratos já celebrados (não incluindo o
 % contrato que se pretende celebrar) seja igual ou superior a 75.000 euros
 
-+contrato(IdC,IdAd,IdAda,AE,TC,TP,Des,Custo,Prazo,Local,Data) :: regraTresAnos(AE, IdAd, IdAda, TC, Custo, Data).
++contrato(IdC,IdAd,IdAda,AE,TC,TP,Des,Custo,Prazo,Local,Data) :: regraTresAnos(IdAd, IdAda, AE, TC, Custo, Data).
 
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
