@@ -68,6 +68,16 @@ nifValido(Nif) :- comprimento(Nif, R), R == 9.
 % Ganho ou custo válido (> 0) tem de ser maior do que zero.
 custoValido(G) :- G > 0.
 
+
+% Tipo de Atividade Economica
+
+tipoAtividadeEconomica('Construcao').
+tipoAtividadeEconomica('Comercio').
+tipoAtividadeEconomica('Transporte').
+tipoAtividadeEconomica('Alojamento').
+tipoAtividadeEconomica('Consultoria').
+
+
 % Tipo de Procedimento ou é Ajuste Direto, Consulta Prévia ou Concurso Público.
 tipoProcedimentoValido('Ajuste Direto').
 tipoProcedimentoValido('Consulta Previa').
@@ -98,16 +108,16 @@ ajusteDiretoValido(TC, Custo, Prazo) :- tipoAjusteD(TC),
 	
 
 %ex: encontraContratosA2('700500601','100100103','Aquisicao de servicos',data(_,_,2021),CS).
-encontraContratosA0(IdAd,IdAda,TC,data(D,M,A), CS) :- solucoes(contrato(_,IdAd,IdAda,TC,_,_,Valor,_,_,data(D,M,A)),(contrato(_,IdAd,IdAda,TC,_,_,Valor,_,_,data(D,M,A))),CS).
-encontraContratosA1(IdAd,IdAda,TC,data(D,M,A), CS) :- A3 is A-1, solucoes(contrato(_,IdAd,IdAda,TC,_,_,Valor,_,_,data(D,M,A2)),(contrato(_,IdAd,IdAda,TC,_,_,Valor,_,_,data(D,M,A2))),CS).
-encontraContratosA2(IdAd,IdAda,TC,data(D,M,A), CS) :- A3 is A-2, solucoes(contrato(_,IdAd,IdAda,TC,_,_,Valor,_,_,data(D,M,A3)),(contrato(_,IdAd,IdAda,TC,_,_,Valor,_,_,data(D,M,A3))),CS).
+encontraContratosA0(AE,IdAd,IdAda,TC,data(D,M,A), CS) :- solucoes(contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A)),(contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A))),CS).
+encontraContratosA1(AE,IdAd,IdAda,TC,data(D,M,A), CS) :- A3 is A-1, solucoes(contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A2)),(contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A2))),CS).
+encontraContratosA2(AE,IdAd,IdAda,TC,data(D,M,A), CS) :- A3 is A-2, solucoes(contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A3)),(contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A3))),CS).
 
 % Concatenar 2 listas ex: [1,2],[3,4],L ======= [1,2,3,4]
 concat([], R, R).
 concat([X|XS1], R, [X|XS2]) :- concat(XS1, R, XS2).
 
 % ex: encontrarTudo('700500601','100100103','Aquisicao de servicos',data(_,_,2021),CS).
-encontrarTudo(IdAd,IdAda,TC,Data, CS) :- encontraContratosA0(IdAd,IdAda,TC,Data, CS0), encontraContratosA1(IdAd,IdAda,TC,Data, CS1), concat(CS0,CS1,CSR),encontraContratosA2(IdAd,IdAda,TC,Data, CS2), concat(CSR,CS2,CS).
+encontrarTudo(AE,IdAd,IdAda,TC,Data, CS) :- encontraContratosA0(AE,IdAd,IdAda,TC,Data, CS0), encontraContratosA1(AE,IdAd,IdAda,TC,Data, CS1), concat(CS0,CS1,CSR),encontraContratosA2(AE,IdAd,IdAda,TC,Data, CS2), concat(CSR,CS2,CS).
 
 % somatorio dos elementos da lista ex: [1,2,3,4],S ======= 10
 soma([],0).
@@ -125,5 +135,5 @@ confirmaValor(Valor) :- Valor =<75000.
 %regraTresAnos('700500601','100100103','Aquisicao de servicos',5000,data(_,_,2021)). resultado esperado yes
 %regraTresAnos('700500601','100100103','Aquisicao de servicos',5000000,data(_,_,2021)). resultado esperado No
 
-regraTresAnos(IdAd, IdAda, TC, Custo, Data) :- encontrarTudo(IdAd, IdAda, TC, Data, CS), calculaValorTotal(CS, VT), confirmaValor(VT+Custo).
+regraTresAnos(AEco,IdAd, IdAda, TC, Custo, Data) :- encontrarTudo(AEco, IdAd, IdAda, TC, Data, CS), calculaValorTotal(CS, VT), confirmaValor(VT+Custo).
 

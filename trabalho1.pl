@@ -14,7 +14,7 @@
 :- op(900,xfy,'::').
 :- dynamic adjudicante/4.     /* */
 :- dynamic adjudicatario/4.	  /* */
-:- dynamic contrato/10.       /* */
+:- dynamic contrato/11.       /* */
 :- dynamic data/3.            /* (Dia-Mes-Ano) */
 
 
@@ -50,7 +50,7 @@
 
 % Garantir que não é possível remover um adjudicatario que celebrou contratos públicos.
 
--adjudicatario(Id,_,_,_,_) :: (solucoes(Id, contrato(_,_,Id,_,_,_,_,_,_,_), L),
+-adjudicatario(Id,_,_,_,_) :: (solucoes(Id, contrato(_,_,Id,_,_,_,_,_,_,_,_), L),
 								comprimento(L, N), N == 0).
 
 
@@ -76,7 +76,7 @@
 
 % Garantir que não é possível remover um adjudicante que celebrou contratos públicos.
 
--adjudicante(Id,_,_,_) :: (solucoes(Id, contrato(_,Id,_,_,_,_,_,_,_,_), L),
+-adjudicante(Id,_,_,_) :: (solucoes(Id, contrato(_,Id,_,_,_,_,_,_,_,_,_), L),
 							comprimento(L, N), N == 0).
 
 
@@ -84,37 +84,38 @@
 %---------------------------------- Contratos ------------------------------------------------- 
 
 % Garantir que cada contrato é único
-+contrato(IdContrato, IdAd, IdAda, TipoContrato, TipoProcedimento, Descricao, Valor, Prazo, Local, Data) ::
-		(solucoes((IdContrato, IdAd, IdAda, TipoContrato, TipoProcedimento, Descricao, Valor, Prazo, Local, Data),
-				contrato(IdContrato, IdAd, IdAda, TipoContrato, TipoProcedimento, Descricao, Valor, Prazo, Local, Data),
++contrato(IdContrato, IdAd, IdAda, AtividadeEconomica, TipoContrato, TipoProcedimento, Descricao, Valor, Prazo, Local, Data) ::
+		(solucoes((IdContrato, IdAd, IdAda,AtividadeEconomica, TipoContrato, TipoProcedimento, Descricao, Valor, Prazo, Local, Data),
+				contrato(IdContrato, IdAd, IdAda, AtividadeEconomica, TipoContrato, TipoProcedimento, Descricao, Valor, Prazo, Local, Data),
 				  L),
 		comprimento(L, 1)).
 
 % Garantir que a data do contrato inseirdo é válida
 
-+contrato(_,_,_,_,_,_,_,_,_,data(Dia,Mes,Ano)) :: validaData(Dia,Mes,Ano).
++contrato(_,_,_,_,_,_,_,_,_,_,data(Dia,Mes,Ano)) :: validaData(Dia,Mes,Ano).
 
 
 % Garantir que não é possível remover um contrato associado a um adjudicante
 
--contrato(_,IdAdjudicante,_,_,_,_,_,_,_,_) :: (solucoes(IdAdjudicante, adjudicante(IdAdjudicante,_,_,_), L),
+-contrato(_,IdAdjudicante,_,_,_,_,_,_,_,_,_) :: (solucoes(IdAdjudicante, adjudicante(IdAdjudicante,_,_,_), L),
 										comprimento(L, 0)).
 
 
 % Garantir que não é possível remover um contrato associado a um adjudicatário
 
--contrato(_,_,IdAdjudicatario,_,_,_,_,_,_,_) :: (solucoes(IdAdjudicatario, adjudicatario(IdAdjudicatario,_,_,_), L),
+-contrato(_,_,IdAdjudicatario,_,_,_,_,_,_,_,_) :: (solucoes(IdAdjudicatario, adjudicatario(IdAdjudicatario,_,_,_), L),
 											comprimento(L, 0)).
 
 
-% Garantir que o tipo de procedimento é válido.
 
-+contrato(_,_,_,_,TP,_,_,_,_,_) :: tipoProcedimentoValido(TP).
+% Garantir que o tipo de atividade economica e o tipo de procedimento de um contrato é válido.
+
++contrato(_,_,_,AE,_,TP,_,_,_,_,_) :: tipoProcedimentoValido(TP), tipoAtividadeEconomica(AE).
 
 
 % Garantir que um contrato por ajuste direto tem valor igual ou inferior a 5000 euros, tem prazo de vigência de um ano a contar da data da adjudicação e que se refere apenas a contrato de aquisição ou locação de bens móveis ou aquisição de serviços.
  
-+contrato(IdC,IdAd,IdAda,TC,'Ajuste Direto',Des,Custo,Prazo,Local,Data) :: ajusteDiretoValido(TC, Custo, Prazo).
++contrato(IdC,IdAd,IdAda,AE,TC,'Ajuste Direto',Des,Custo,Prazo,Local,Data) :: ajusteDiretoValido(TC, Custo, Prazo).
 
 
 
@@ -123,7 +124,7 @@
 % anteriores, sempre que: O preço contratual acumulado dos contratos já celebrados (não incluindo o
 % contrato que se pretende celebrar) seja igual ou superior a 75.000 euros
 
-+contrato(IdC,IdAd,IdAda,TC,TP,Des,Custo,Prazo,Local,Data) :: regraTresAnos(IdAd, IdAda, TC, Custo, Data).
++contrato(IdC,IdAd,IdAda,AE,TC,TP,Des,Custo,Prazo,Local,Data) :: regraTresAnos(AE, IdAd, IdAda, TC, Custo, Data).
 
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
@@ -133,7 +134,7 @@ novoAdjudicatario(Id,Nome,Nif, Morada) :- evolucao(adjudicatario(Id, Nome,Nif, M
 
 novoAdjudicante(Id,Nome,Nif, Morada) :- evolucao(adjudicante(Id,Nome,Nif, Morada)).
 
-novoContrato(IdC, IdAd,IdAda,TC,TP,Desc,Valor,Prazo,Local,Data) :- evolucao(contrato(IdC, IdAd,IdAda,TC,TP,Desc,Valor,Prazo,Local,Data)).
+novoContrato(IdC,IdAd,IdAda,AE,TC,TP,Desc,Valor,Prazo,Local,Data) :- evolucao(contrato(IdC, IdAd,IdAda,AE,TC,TP,Desc,Valor,Prazo,Local,Data)).
 
 
 
