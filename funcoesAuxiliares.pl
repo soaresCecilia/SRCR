@@ -86,8 +86,29 @@ prazoAjusteD(Prazo) :- Prazo =< 365.
 
 
 
+% Tipo de Atividade Economica
+
+tipoAtividadeEconomica('Construcao').
+tipoAtividadeEconomica('Comercio').
+tipoAtividadeEconomica('Transporte').
+tipoAtividadeEconomica('Alojamento').
+tipoAtividadeEconomica('Consultoria').
+tipoAtividadeEconomica('Restauracao').
+tipoAtividadeEconomica('Transportes').
+tipoAtividadeEconomica('Armazenagem').
+tipoAtividadeEconomica('Agricultura').
+
+
+
+% Valida atividade economica de um determinado adjudicatario
+
+validaAE(IdAda,AE) :- adjudicatario(IdAda,AE,_,_,_).
+
+
+
+
 %---------------------------------------------------------------------------------
-% Contrato com um determinado adjudicatario só pode ser feito se este estiver registado com a atividade economica indicada nno contrato
+% Contrato com um determinado adjudicatario só pode ser feito se este estiver registado com a atividade economica indicada no contrato
 
 
 buscaListaAE(IdAda, LAE) :- adjudicatario(IdAda,L,_,_,_), append([],L,LAE).
@@ -162,3 +183,5 @@ halve(L,A,B):-hv(L,[],A,B).
 hv(L,L,[],L).      % for lists of even length
 hv(L,[_|L],[],L).  % for lists of odd length
 hv([H|T],Acc,[H|L],B):-hv(T,[_|Acc],L,B).
+
+
