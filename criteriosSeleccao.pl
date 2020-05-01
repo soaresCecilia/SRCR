@@ -63,63 +63,66 @@ adjudicatarioAE(AE,L) :- solucoes((adjudicatario(Id,AE,Nome,Nif,Morada)), adjudi
 
 % Identificar Contrato pelo ID
 contratoID(IdC, L) :-
-solucoes(contrato(IdC,IdAd,AE,IdAda,TC,TP,Des,C,P,Local,Data),
+solucoes(idC,
 contrato(IdC,IdAd,IdAda,AE,TC,TP,Des,C,P,Local,Data),L).
 
 
 % Identificar Contrato pelo Adjudicante
 contratoIDAd(IdAd, L) :-
-solucoes(contrato(_,IdAd,_,_,_,_,_,_,_,_,_),
-contrato(_,IdAd,_,_,_,_,_,_,_,_,_), L).
+solucoes(contrato(IdC,IdAd,IdAda,AE,TC,TP,Des,C,P,Local,Data),
+contrato(IdC,IdAd,IdAda,AE,TC,TP,Des,C,P,Local,Data),L).
 
 
 
 % Identificar Contrato pelo Adjudicatario
 contratoIDAda(IdAda, L) :-
-solucoes(contrato(_,_,IdAda,_,_,_,_,_,_,_,_),
-contrato(_,_,IdAda,_,_,_,_,_,_,_,_), L).
+solucoes(contrato(IdC,IdAd,IdAda,AE,TC,TP,Des,C,P,Local,Data),
+contrato(IdC,IdAd,IdAda,AE,TC,TP,Des,C,P,Local,Data),L).
 
+% Identificar Contrato pelo tipo do mesmo
+contratoAE(AtividadeEconomica, L) :-
+solucoes(contrato(IdC,IdAd,IdAda,AtividadeEconomica,TipoContrato,TP,Des,C,P,Local,Data),
+contrato(IdC,IdAd,IdAda,AtividadeEconomica,TipoContrato,TP,Des,C,P,Local,Data),L).
 
 % Identificar Contrato pelo tipo do mesmo
 contratoTC(TipoContrato, L) :-
-solucoes(contrato(_,_,_,TipoContrato,_,_,_,_,_,_,_),
-contrato(_,_,_,TipoContrato,_,_,_,_,_,_,_), L).
+solucoes(contrato(IdC,IdAd,IdAda,AE,TipoContrato,TP,Des,C,P,Local,Data),
+contrato(IdC,IdAd,IdAda,AE,TipoContrato,TP,Des,C,P,Local,Data),L).
 
 
 % Identificar Contrato pelo tipo de procedimento subjacente
 contratoTP(TipoProced, L) :-
-solucoes(contrato(_,_,_,_,TipoProced,_,_,_,_,_,_),
-contrato(_,_,_,_,TipoProced,_,_,_,_,_,_), L).
+solucoes(contrato(IdC,IdAd,IdAda,AE,TC,TipoProced,Des,C,P,Local,Data),
+contrato(IdC,IdAd,IdAda,AE,TC,TipoProced,Des,C,P,Local,Data),L).
 
 
 % Identificar Contrato pela descricao
 contratoDesc(Descricao, L) :-
-solucoes(contrato(_,_,_,_,_,Descricao,_,_,_,_,_),
-contrato(_,_,_,_,_,Descricao,_,_,_,_,_), L).
+solucoes(contrato(IdC,IdAd,IdAda,AE,TC,TP,Descricao,C,P,Local,Data),
+contrato(IdC,IdAd,IdAda,AE,TC,TP,Descricao,C,P,Local,Data),L).
 
 
 % Identificar Contrato pelo custo
 contratoCusto(Custo, L) :-
-solucoes(contrato(_,_,_,_,_,_,_,Custo,_,_,_),
-contrato(_,_,_,_,_,_,Custo,_,_,_,_), L).
+solucoes(contrato(IdC,IdAd,IdAda,AE,TC,TP,Des,Custo,P,Local,Data),
+contrato(IdC,IdAd,IdAda,AE,TC,TP,Des,Custo,P,Local,Data),L).
 
 
 % Identificar Contrato pelo prazo
 contratoPrazo(Prazo, L) :-
-solucoes(contrato(_,_,_,_,_,_,_,_,Prazo,_,_),
-contrato(_,_,_,_,_,_,_,_,Prazo,_,_), L).
+solucoes(contrato(IdC,IdAd,IdAda,AE,TC,TP,Des,C,Prazo,Local,Data),
+contrato(IdC,IdAd,IdAda,AE,TC,TP,Des,C,Prazo,Local,Data),L).
 
 
 % Identificar Contrato pelo Local
 contratoLocal(Local, L) :-
-solucoes(contrato(_,_,_,_,_,_,_,_,_,Local,_),
-contrato(_,_,_,_,_,_,_,_,_,Local,_), L).
-
+solucoes(contrato(IdC,IdAd,IdAda,AE,TC,TP,Des,C,P,Local,Data),
+contrato(IdC,IdAd,IdAda,AE,TC,TP,Des,C,P,Local,Data),L).
 
 % Identificar Contrato pela Data
 contratoData(Data, L) :-
-solucoes(contrato(_,_,_,_,_,_,_,_,_,_,Data),
-contrato(_,_,_,_,_,_,_,_,_,_,Data), L).
+solucoes(contrato(IdC,IdAd,IdAda,AE,TC,TP,Des,C,P,Local,Data),
+contrato(IdC,IdAd,IdAda,AE,TC,TP,Des,C,P,Local,Data),L).
 
 
 

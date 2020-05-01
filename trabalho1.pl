@@ -26,6 +26,8 @@
 
 :- include('funcoesAuxiliares.pl').
 
+:- include('custosLucros.pl').
+
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 
 % Invariantes Estruturais e Referenciais

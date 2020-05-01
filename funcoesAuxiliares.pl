@@ -141,3 +141,29 @@ confirmaValor(Valor) :- Valor =<75000.
 
 regraTresAnos(IdAd, IdAda, AEco, TC, Custo, Data) :- encontrarTudo(IdAd, IdAda, AEco, TC, Data, CS), calculaValorTotal(CS, VT), confirmaValor(VT+Custo).
 
+%---------------------------------------------------------------------------------
+% Obter os n primeiros elementos de uma lista
+
+take(Lista,0,[]).
+take([X|XS], N1, [X|I]) :- N0 is N1-1, take(XS,N0,I).
+
+%---------------------------------------------------------------------------------
+% Ordenar uma lista através de merge sort
+
+merge_sort([],[]).     % empty list is already sorted
+merge_sort([X],[X]).   % single element list is already sorted
+merge_sort(List,Sorted):-
+    List=[_,_|_],divide(List,L1,L2),     % list with at least two elements is divided into two parts
+	merge_sort(L1,Sorted1),merge_sort(L2,Sorted2),  % then each part is sorted
+	merge(Sorted1,Sorted2,Sorted).                  % and sorted parts are merged
+
+merge(A, [], A).
+merge([], B, B).
+merge([(X0,X1)|Ta], [(Y0,Y1)|Tb], R) :- X1 > Y1, merge(Ta, [(Y0,Y1)|Tb], M), R = [(X0,X1)|M].
+merge([(X0,X1)|Ta], [(Y0,Y1)|Tb], R) :- X1 =< Y1, merge(Tb, [(X0,X1)|Ta], M), R = [(Y0,Y1)|M].
+
+halve(L,A,B):-hv(L,[],A,B).
+   
+hv(L,L,[],L).      % for lists of even length
+hv(L,[_|L],[],L).  % for lists of odd length
+hv([H|T],Acc,[H|L],B):-hv(T,[_|Acc],L,B).
