@@ -40,13 +40,15 @@
 +adjudicatario(Id,AE,Nome, Nif, Morada) :: (solucoes(Id, adjudicatario(Id,AE,_,_,_), L), comprimento(L, N), N == 1).
 
 %Garantir que o Nif do adjudicatário é único.
-+adjudicatario(_,_,_,Nif,_) :: (solucoes(Nif, adjudicatario(_,_,Nif,_,_), L), comprimento(L, N), N == 1).
++adjudicatario(_,_,_,Nif,_) :: (solucoes(Nif, adjudicatario(_,_,_,Nif,_), L), comprimento(L, N), N == 1).
 
 
 % Garantir que adjudicatarios com ids diferentes têm diferente informação
-+adjudicatario(Id,AE,Nome,Nif, Morada) :: (solucoes((AE,Nome, Nif, Morada), adjudicatario(_,AE,Nome, Nif, Morada), L), comprimento(L, N), N == 1).
++adjudicatario(Id,AE,Nome,Nif, Morada) :: (solucoes((Nome, Nif, Morada), adjudicatario(_,_,Nome, Nif, Morada), L), comprimento(L, N), N == 1).
 
 
+% Garantir que as Atividade Economicas introduzidas no adjudicatario são todas válidas, tendo uma inválida, não deixa introduzir novo adjudicatário
++adjudicatario(_,AE,_,_,_) :: (verificaAE(AE)).
 
 
 %Garantir que um adjudicatario tem 1 ou mais atividades economicas
@@ -78,7 +80,7 @@
 %Garantir que o Nif do adjudicante é único.
 
 +adjudicante(_,_, Nif, _) :: (solucoes(Nif, adjudicante(_,_,Nif,_), L),
-comprimento(L, N), N == 1).
+								comprimento(L, N), N == 1).
 
 
 % Garantir que não é possível remover um adjudicante que celebrou contratos públicos.
@@ -99,7 +101,7 @@ comprimento(L, N), N == 1).
 
 % Garantir que a data do contrato inseirdo é válida
 
-+contrato(_,_,_,_,_,_,_,_,_,_,data(Dia,Mes,Ano)) :: validaData(Dia,Mes,Ano).
++contrato(_,_,_,_,_,_,_,_,_,_,data(Dia,Mes,Ano)) :: (validaData(Dia,Mes,Ano)).
 
 
 % Garantir que não é possível remover um contrato associado a um adjudicante
@@ -117,20 +119,20 @@ comprimento(L, N), N == 1).
 
 % Garantir que o tipo de atividade economica e o tipo de procedimento de um contrato é válido.
 
-+contrato(_,_,_,_,_,TP,_,_,_,_,_) :: tipoProcedimentoValido(TP).
++contrato(_,_,_,_,_,TP,_,_,_,_,_) :: (tipoProcedimentoValido(TP)).
 
 
 
 
 % Garantir que o tipo de atividade economica de adjudicatario num contrato é válida.
-+contrato(_,_,IdAda,AE,_,_,_,_,_,_,_) :: validaAE(IdAda,AE).
++contrato(_,_,IdAda,AE,_,_,_,_,_,_,_) :: (validaAE(IdAda,AE)).
 
 
 
 
 % Garantir que um contrato por ajuste direto tem valor igual ou inferior a 5000 euros, tem prazo de vigência de um ano a contar da data da adjudicação e que se refere apenas a contrato de aquisição ou locação de bens móveis ou aquisição de serviços.
  
-+contrato(IdC,IdAd,IdAda,AE,TC,'Ajuste Direto',Des,Custo,Prazo,Local,Data) :: ajusteDiretoValido(TC, Custo, Prazo).
++contrato(IdC,IdAd,IdAda,AE,TC,'Ajuste Direto',Des,Custo,Prazo,Local,Data) :: (ajusteDiretoValido(TC, Custo, Prazo)).
 
 
 
@@ -139,7 +141,7 @@ comprimento(L, N), N == 1).
 % anteriores, sempre que: O preço contratual acumulado dos contratos já celebrados (não incluindo o
 % contrato que se pretende celebrar) seja igual ou superior a 75.000 euros
 
-+contrato(IdC,IdAd,IdAda,AE,TC,TP,Des,Custo,Prazo,Local,Data) :: regraTresAnos(IdAd, IdAda, AE, TC, Custo, Data).
++contrato(IdC,IdAd,IdAda,AE,TC,TP,Des,Custo,Prazo,Local,Data) :: (regraTresAnos(IdAd, IdAda, AE, TC, Custo, Data)).
 
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -

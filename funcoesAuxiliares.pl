@@ -100,15 +100,15 @@ tipoAtividadeEconomica('Agricultura').
 
 
 
-% Valida atividade economica de um determinado adjudicatario
-
-validaAE(IdAda,AE) :- adjudicatario(IdAda,AE,_,_,_).
+% Valida atividade economica de um determinado adjudicatario aquando a sua insercao na base de conhecimento
+verificaAE([]).
+verificaAE([H|T]) :- tipoAtividadeEconomica(H),verificaAE(T).
 
 
 
 
 %---------------------------------------------------------------------------------
-% Contrato com um determinado adjudicatario só pode ser feito se este estiver registado com a atividade economica indicada no contrato
+% Contrato com um determinado adjudicatario só pode ser feito se este estiver registado com a atividade economica indicada noo contrato
 
 
 buscaListaAE(IdAda, LAE) :- adjudicatario(IdAda,L,_,_,_), append([],L,LAE).
