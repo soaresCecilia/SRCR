@@ -63,7 +63,7 @@
 										comprimento(L, N), N == 1).
 
 
-% Garantir que adjudicatarios com ids diferentes têm diferente informação
+% Garantir que adjudicantes com ids diferentes têm diferente informação
 
 +adjudicante(Id,Nome,Nif, Morada) :: (solucoes((Nome, Nif, Morada), adjudicante(_,Nome, Nif, Morada), L),
 										comprimento(L, N), N == 1).
@@ -133,12 +133,12 @@
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Adicionar adjudicatarios, adjudicantes e contratos.
 
+
 novoAdjudicatario(Id,AE,Nome,Nif,Morada) :- evolucao(adjudicatario(Id,AE,Nome,Nif,Morada)).
 
 novoAdjudicante(Id,Nome,Nif,Morada) :- evolucao(adjudicante(Id,Nome,Nif,Morada)).
 
 novoContrato(IdC,IdAd,IdAda,AE,TC,TP,Desc,Valor,Prazo,Local,Data) :- evolucao(contrato(IdC,IdAd,IdAda,AE,TC,TP,Desc,Valor,Prazo,Local,Data)).
-
 
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -

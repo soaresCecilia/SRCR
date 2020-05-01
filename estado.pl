@@ -30,7 +30,7 @@ fail; true.
 
 
 guardaEstado :-
-open('estado.pl', write, Stream),
+open('baseConhecimento.pl', write, Stream),
 write(Stream, '% adjudicante: #IdAd,Nome,Nif,Morada -> {V,F}\n'),
 saveAdjudicante(Stream),
 write(Stream, '\n% adjudicatario: #IdAda,Nome,Nif,Morada -> {V,F}\n'),
