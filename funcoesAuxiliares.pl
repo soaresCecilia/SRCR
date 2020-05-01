@@ -63,10 +63,6 @@ validaData(D,M,A) :- mes31Dias(D,M);mes30Dias(D,M);mes29Dias(D,M).
 
 
 
-% Nif válido (com 9 digitos) ex: '123456789'
-nifValido(Nif) :- comprimentoAtom(Nif, R), R == 9.
-
-
 % Ganho ou custo válido (> 0) tem de ser maior do que zero.
 custoValido(G) :- G > 0.
 

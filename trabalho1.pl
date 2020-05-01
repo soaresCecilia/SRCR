@@ -39,20 +39,20 @@
 
 +adjudicatario(Id,AE,Nome, Nif, Morada) :: (solucoes(Id, adjudicatario(Id,AE,_,_,_), L), comprimento(L, N), N == 1).
 
+%Garantir que o Nif do adjudicatário é único.
++adjudicatario(_,_,_,Nif,_) :: (solucoes(Nif, adjudicatario(_,_,Nif,_,_), L), comprimento(L, N), N == 1).
+
 
 % Garantir que adjudicatarios com ids diferentes têm diferente informação
-
 +adjudicatario(Id,AE,Nome,Nif, Morada) :: (solucoes((AE,Nome, Nif, Morada), adjudicatario(_,AE,Nome, Nif, Morada), L), comprimento(L, N), N == 1).
 
 
-%Garantir que o Nif do adjudicatário é válido, e o seu tipo de AtividadeEconomica tambem.
-
-+adjudicatario(_,_,_,Nif,_) :: nifValido(Nif).
+%Garantir que o AtividadeEconomica adjudicatário é válida.
 +adjudicatario(_,AE,_,_,_) :: tipoAtividadeEconomica(AE).
 
 % Garantir que não é possível remover um adjudicatario que celebrou contratos públicos.
 
--adjudicatario(Id,_,_,_,_,_) :: (solucoes(Id, contrato(_,_,Id,_,_,_,_,_,_,_,_), L),
+-adjudicatario(Id,_,_,_,_) :: (solucoes(Id, contrato(_,_,Id,_,_,_,_,_,_,_,_), L),
 								comprimento(L, N), N == 0).
 
 
@@ -71,9 +71,10 @@
 										comprimento(L, N), N == 1).
 
 
-%Garantir que o Nif do adjudicatário é válido.
+%Garantir que o Nif do adjudicatário é único.
 
-+adjudicante(_,_, Nif, _) :: nifValido(Nif).
++adjudicante(_,_, Nif, _) :: (solucoes(Nif, adjudicante(_,_,Nif,_), L),
+comprimento(L, N), N == 1).
 
 
 % Garantir que não é possível remover um adjudicante que celebrou contratos públicos.
