@@ -99,7 +99,9 @@
 				  L),
 		comprimento(L, 1)).
 
-% Garantir que a data do contrato inseirdo é válida
+
+
+% Garantir que a data do contrato inserido é válida
 
 +contrato(_,_,_,_,_,_,_,_,_,_,data(Dia,Mes,Ano)) :: (validaData(Dia,Mes,Ano)).
 
@@ -148,11 +150,11 @@
 % Adicionar adjudicatarios, adjudicantes e contratos.
 
 
-novoAdjudicatario(Id,AE,Nome,Nif,Morada) :- evolucao(adjudicatario(Id,AE,Nome,Nif,Morada)).
+adicionaAdjudicatario(Id,AE,Nome,Nif,Morada) :- evolucao(adjudicatario(Id,AE,Nome,Nif,Morada)).
 
-novoAdjudicante(Id,Nome,Nif,Morada) :- evolucao(adjudicante(Id,Nome,Nif,Morada)).
+adicionaAdjudicante(Id,Nome,Nif,Morada) :- evolucao(adjudicante(Id,Nome,Nif,Morada)).
 
-novoContrato(IdC,IdAd,IdAda,AE,TC,TP,Desc,Valor,Prazo,Local,Data) :- evolucao(contrato(IdC,IdAd,IdAda,AE,TC,TP,Desc,Valor,Prazo,Local,Data)).
+adicionaContrato(IdC,IdAd,IdAda,AE,TC,TP,Desc,Valor,Prazo,Local,Data) :- evolucao(contrato(IdC,IdAd,IdAda,AE,TC,TP,Desc,Valor,Prazo,Local,Data)).
 
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
