@@ -140,10 +140,15 @@ ajusteDiretoValido(TC, Custo, Prazo) :- tipoAjusteD(TC),
 % Contrato entre o mesmo Adjudicante e Adjudicatario, com o mesmo tipo de Contrato, e valor de contratos nos 3 anos economicos (incluindo o atual) anteriores, não pode ultrapasaar os 75000 euros
 	
 
-%ex: encontraContratosA2('700500601','100100103','Construcao','Aquisicao de servicos',data(_,_,2021),CS).
-encontraContratosA0(IdAd,IdAda,AE,TC,data(D,M,A), CS) :- solucoes(contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A)),(contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A))),CS).
-encontraContratosA1(IdAd,IdAda,AE,TC,data(D,M,A), CS) :- A2 is A-1, solucoes(contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A2)),(contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A2))),CS).
-encontraContratosA2(IdAd,IdAda,AE,TC,data(D,M,A), CS) :- A3 is A-2, solucoes(contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A3)),(contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A3))),CS).
+%ex: encontraContratosA('700500601','100100103','Construcao','Aquisicao de servicos',data(_,_,2021),CS).
+%encontraContratosA0(IdAd,IdAda,AE,TC,data(D,M,A), CS) :- solucoes(contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A)),(contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A))),CS).
+%encontraContratosA1(IdAd,IdAda,AE,TC,data(D,M,A), CS) :- A2 is A-1, solucoes(contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A2)),(contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A2))),CS).
+%encontraContratosA2(IdAd,IdAda,AE,TC,data(D,M,A), CS) :- A3 is A-2, solucoes(contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A3)),(contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A3))),CS).
+
+%testar com esta nova versão, é mais bonita, e parece funcionar.
+encontraContratosA(IdAd,IdAda,AE,TC,data(D,M,A), CS) :- solucoes((contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A)), contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A-1)) , contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A-2)) ),
+															(contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A))),
+																CS).
 
 % Concatenar 2 listas ex: [1,2],[3,4],L ======= [1,2,3,4]
 concat([], R, R).
