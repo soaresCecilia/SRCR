@@ -63,7 +63,7 @@ validaData(D,M,A) :- mes31Dias(D,M);mes30Dias(D,M);mes29Dias(D,M).
 
 
 
-% Nif válido (com 9 digitos) ex: "123456789"
+% Nif válido (com 9 digitos) ex: '123456789'
 nifValido(Nif) :- comprimentoAtom(Nif, R), R == 9.
 
 
@@ -78,6 +78,10 @@ tipoAtividadeEconomica('Comercio').
 tipoAtividadeEconomica('Transporte').
 tipoAtividadeEconomica('Alojamento').
 tipoAtividadeEconomica('Consultoria').
+
+% Valida atividade economica de um determinado adjudicatario
+
+validaAE(IdAda,AE) :- adjudicatario(IdAda,AE,_,_,_).
 
 
 % Tipo de Procedimento ou é Ajuste Direto, Consulta Prévia ou Concurso Público.

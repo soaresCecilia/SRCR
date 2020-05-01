@@ -24,15 +24,15 @@ adjudicante('700500650', 'Centro Hospitalar Universitario de Lisboa', '508080142
 %----Adjudicatários
 
 
-adjudicatario('100100100','JOHNSON & JOHNSON VISION', '500153370', 'Lagoas Park, Ed.9, Oeiras').
+adjudicatario('100100100','Construcao','JOHNSON & JOHNSON VISION', '500153370', 'Lagoas Park, Ed.9, Oeiras').
 
-adjudicatario('100100101', 'Seguradoras Unidas, S.A.,', '500940231', 'Av. da Liberdade, Lisboa').
+adjudicatario('100100101','Construcao','Seguradoras Unidas, S.A.,', '500940231', 'Av. da Liberdade, Lisboa').
 
-adjudicatario('100100102', 'CISEC, S.A', '500205698','Rua Dom Nuno Alvares Pereira, Faro').
+adjudicatario('100100102','Construcao','CISEC, S.A', '500205698','Rua Dom Nuno Alvares Pereira, Faro').
 
-adjudicatario('100100103','Drager', '508771323', 'Rua Nossa Senhora da Conceicao, Carnaxide').
+adjudicatario('100100103','Construcao','Drager','508771323', 'Rua Nossa Senhora da Conceicao, Carnaxide').
 
-adjudicatario('100100104', 'Pamafe Informatica, Lda', '504099388', 'Rua do Crasto, 194, Porto').
+adjudicatario('100100104','Construcao','Pamafe Informatica, Lda', '504099388', 'Rua do Crasto, 194, Porto').
 
 
 %-----Contratos

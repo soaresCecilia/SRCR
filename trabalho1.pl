@@ -13,7 +13,7 @@
 
 :- op(900,xfy,'::').
 :- dynamic adjudicante/4.     /* */
-:- dynamic adjudicatario/4.	  /* */
+:- dynamic adjudicatario/5.	  /* */
 :- dynamic contrato/11.       /* */
 :- dynamic data/3.            /* (Dia-Mes-Ano) */
 
@@ -35,22 +35,22 @@
 
 % Garantir que o id de cada adjudicatario é único
 
-+adjudicatario(Id,Nome, Nif, Morada) :: (solucoes(Id, adjudicatario(Id,_,_,_), L), comprimento(L, N), N == 1).
++adjudicatario(Id,AE,Nome, Nif, Morada) :: (solucoes(Id, adjudicatario(Id,AE,_,_,_), L), comprimento(L, N), N == 1).
 
 
 % Garantir que adjudicatarios com ids diferentes têm diferente informação
 
-+adjudicatario(Id,Nome,Nif, Morada) :: (solucoes((Nome, Nif, Morada), adjudicatario(_,Nome, Nif, Morada), L), comprimento(L, N), N == 1).
++adjudicatario(Id,AE,Nome,Nif, Morada) :: (solucoes((AE,Nome, Nif, Morada), adjudicatario(_,AE,Nome, Nif, Morada), L), comprimento(L, N), N == 1).
 
 
-%Garantir que o Nif do adjudicatário é válido.
+%Garantir que o Nif do adjudicatário é válido, e o seu tipo de AtividadeEconomica tambem.
 
-%+adjudicatario(_,_, Nif, _) :: nifValido(Nif).
-
++adjudicatario(_,_,_,Nif,_) :: nifValido(Nif).
++adjudicatario(_,AE,_,_,_) :: tipoAtividadeEconomica(AE).
 
 % Garantir que não é possível remover um adjudicatario que celebrou contratos públicos.
 
--adjudicatario(Id,_,_,_,_) :: (solucoes(Id, contrato(_,_,Id,_,_,_,_,_,_,_,_), L),
+-adjudicatario(Id,_,_,_,_,_) :: (solucoes(Id, contrato(_,_,Id,_,_,_,_,_,_,_,_), L),
 								comprimento(L, N), N == 0).
 
 
@@ -71,7 +71,7 @@
 
 %Garantir que o Nif do adjudicatário é válido.
 
-%+adjudicante(_,_, Nif, _) :: nifValido(Nif).
++adjudicante(_,_, Nif, _) :: nifValido(Nif).
 
 
 % Garantir que não é possível remover um adjudicante que celebrou contratos públicos.
@@ -103,14 +103,17 @@
 
 % Garantir que não é possível remover um contrato associado a um adjudicatário
 
--contrato(_,_,IdAdjudicatario,_,_,_,_,_,_,_,_) :: (solucoes(IdAdjudicatario, adjudicatario(IdAdjudicatario,_,_,_), L),
+-contrato(_,_,IdAdjudicatario,_,_,_,_,_,_,_,_) :: (solucoes(IdAdjudicatario, adjudicatario(IdAdjudicatario,_,_,_,_), L),
 											comprimento(L, 0)).
 
 
 
 % Garantir que o tipo de atividade economica e o tipo de procedimento de um contrato é válido.
 
-+contrato(_,_,_,AE,_,TP,_,_,_,_,_) :: tipoProcedimentoValido(TP), tipoAtividadeEconomica(AE).
++contrato(_,_,_,_,_,TP,_,_,_,_,_) :: tipoProcedimentoValido(TP).
+
+% Garantir que o tipo de atividade economica de um contrato com um determinado id de adjudicatario é válido.
++contrato(_,_,IdAda,AE,_,_,_,_,_,_,_) :: validaAE(IdAda,AE).
 
 
 % Garantir que um contrato por ajuste direto tem valor igual ou inferior a 5000 euros, tem prazo de vigência de um ano a contar da data da adjudicação e que se refere apenas a contrato de aquisição ou locação de bens móveis ou aquisição de serviços.
@@ -130,11 +133,11 @@
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Adicionar adjudicatarios, adjudicantes e contratos.
 
-novoAdjudicatario(Id,Nome,Nif, Morada) :- evolucao(adjudicatario(Id, Nome,Nif, Morada)).
+novoAdjudicatario(Id,AE,Nome,Nif,Morada) :- evolucao(adjudicatario(Id,AE,Nome,Nif,Morada)).
 
-novoAdjudicante(Id,Nome,Nif, Morada) :- evolucao(adjudicante(Id,Nome,Nif, Morada)).
+novoAdjudicante(Id,Nome,Nif,Morada) :- evolucao(adjudicante(Id,Nome,Nif,Morada)).
 
-novoContrato(IdC,IdAd,IdAda,AE,TC,TP,Desc,Valor,Prazo,Local,Data) :- evolucao(contrato(IdC, IdAd,IdAda,AE,TC,TP,Desc,Valor,Prazo,Local,Data)).
+novoContrato(IdC,IdAd,IdAda,AE,TC,TP,Desc,Valor,Prazo,Local,Data) :- evolucao(contrato(IdC,IdAd,IdAda,AE,TC,TP,Desc,Valor,Prazo,Local,Data)).
 
 
 

@@ -34,26 +34,29 @@ adjudicante(Id,Nome,Nif,Morada), L).
 
 % Identificar Adjudicatario pelo ID
 adjudicatarioID(Id, L) :-
-solucoes(adjudicatario(Id,Nome,Nif,Morada),
-adjudicatario(Id,Nome,Nif, Morada), L).
+solucoes(adjudicatario(Id,AE,Nome,Nif,Morada),
+adjudicatario(Id,AE,Nome,Nif, Morada), L).
 
 
 % Identificar Adjudicatario pelo Nome
 adjudicatarioNome(Nome, L) :-
-solucoes(adjudicatario(Id,Nome,Nif,Morada),
-adjudicatario(Id, Nome,Nif,Morada), L).
+solucoes(adjudicatario(Id,AE,Nome,Nif,Morada),
+adjudicatario(Id,AE,Nome,Nif,Morada), L).
 
 
 % Identificar Adjudicatario pelo Nif
 adjudicatarioNif(Nif, L) :-
-solucoes(adjudicatario(Id,Nome,Nif,Morada),
-adjudicatario(Id,Nome,Nif,Morada), L).
+solucoes(adjudicatario(Id,AE,Nome,Nif,Morada),
+adjudicatario(Id,AE,Nome,Nif,Morada), L).
 
 
 % Identificar Adjudicatario pela Morada
 adjudicatarioMorada(Morada, L) :-
-solucoes(adjudicatario(Id,Nome,Nif,Morada),
-adjudicatario(Id,Nome,Nif,Morada), L).
+solucoes(adjudicatario(Id,AE,Nome,Nif,Morada),
+adjudicatario(Id,AE,Nome,Nif,Morada), L).
+
+%Listar todos os Adjudicatarios com a mesma Atividade Economica
+adjudicatarioAE(AE,L) :- solucoes((adjudicatario(Id,AE,Nome,Nif,Morada)), adjudicatario(Id,AE,Nome,Nif,Morada) , L).
 
 %-------- Contrato
 
