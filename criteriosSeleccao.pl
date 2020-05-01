@@ -79,7 +79,7 @@ contratoIDAda(IdAda, L) :-
 solucoes(contrato(IdC,IdAd,IdAda,AE,TC,TP,Des,C,P,Local,Data),
 contrato(IdC,IdAd,IdAda,AE,TC,TP,Des,C,P,Local,Data),L).
 
-% Identificar Contrato pelo tipo do mesmo
+% Identificar Contrato pela atividade economica
 contratoAE(AtividadeEconomica, L) :-
 solucoes(contrato(IdC,IdAd,IdAda,AtividadeEconomica,TipoContrato,TP,Des,C,P,Local,Data),
 contrato(IdC,IdAd,IdAda,AtividadeEconomica,TipoContrato,TP,Des,C,P,Local,Data),L).
