@@ -88,15 +88,26 @@ prazoAjusteD(Prazo) :- Prazo =< 365.
 
 % Tipo de Atividade Economica
 
-tipoAtividadeEconomica('Construcao').
-tipoAtividadeEconomica('Comercio').
-tipoAtividadeEconomica('Transporte').
+
+tipoAtividadeEconomica('Actividade Cientifica').
+tipoAtividadeEconomica('Actividade Financeira').
 tipoAtividadeEconomica('Alojamento').
-tipoAtividadeEconomica('Consultoria').
-tipoAtividadeEconomica('Restauracao').
-tipoAtividadeEconomica('Transportes').
 tipoAtividadeEconomica('Armazenagem').
-tipoAtividadeEconomica('Agricultura').
+tipoAtividadeEconomica('Comercio').
+tipoAtividadeEconomica('Comunicacao').
+tipoAtividadeEconomica('Consultoria').
+tipoAtividadeEconomica('Construcao').
+tipoAtividadeEconomica('Educacao').
+tipoAtividadeEconomica('Imobiliaria').
+tipoAtividadeEconomica('Locacao de bens moveis').
+tipoAtividadeEconomica('Manutencao').
+tipoAtividadeEconomica('Reparacao de veiculos').
+tipoAtividadeEconomica('Restauracao').
+tipoAtividadeEconomica('Saude').
+tipoAtividadeEconomica('Seguros').
+tipoAtividadeEconomica('Transporte').
+
+
 
 
 
