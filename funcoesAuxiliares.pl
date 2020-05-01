@@ -67,19 +67,6 @@ validaData(D,M,A) :- mes31Dias(D,M);mes30Dias(D,M);mes29Dias(D,M).
 custoValido(G) :- G > 0.
 
 
-% Tipo de Atividade Economica
-
-tipoAtividadeEconomica('Construcao').
-tipoAtividadeEconomica('Comercio').
-tipoAtividadeEconomica('Transporte').
-tipoAtividadeEconomica('Alojamento').
-tipoAtividadeEconomica('Consultoria').
-
-% Valida atividade economica de um determinado adjudicatario
-
-validaAE(IdAda,AE) :- adjudicatario(IdAda,AE,_,_,_).
-
-
 % Tipo de Procedimento ou é Ajuste Direto, Consulta Prévia ou Concurso Público.
 tipoProcedimentoValido('Ajuste Direto').
 tipoProcedimentoValido('Consulta Previa').
@@ -97,6 +84,18 @@ tipoAjusteD('Aquisicao de servicos').
 
 prazoAjusteD(Prazo) :- Prazo =< 365.
 
+
+
+%---------------------------------------------------------------------------------
+% Contrato com um determinado adjudicatario só pode ser feito se este estiver registado com a atividade economica indicada nno contrato
+
+
+buscaListaAE(IdAda, LAE) :- adjudicatario(IdAda,L,_,_,_), append([],L,LAE).
+
+validaAE(IdAda,AE) :- buscaListaAE(IdAda, LAE), member(AE,LAE).
+
+
+%---------------------------------------------------------------------------------
 
 
 % Contrato por ajuste direto tem de ter valor igual ou inferior a 5000 euros, tem de ter prazo até 365 dias e tem de ter uma finalidade específica.

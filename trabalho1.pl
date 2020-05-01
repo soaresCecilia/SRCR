@@ -47,8 +47,12 @@
 +adjudicatario(Id,AE,Nome,Nif, Morada) :: (solucoes((AE,Nome, Nif, Morada), adjudicatario(_,AE,Nome, Nif, Morada), L), comprimento(L, N), N == 1).
 
 
-%Garantir que o AtividadeEconomica adjudicatário é válida.
-+adjudicatario(_,AE,_,_,_) :: tipoAtividadeEconomica(AE).
+
+
+%Garantir que um adjudicatario tem 1 ou mais atividades economicas
++adjudicatario(_,AE,_,_,_) :: (length(AE,T), T >=1).
+
+
 
 % Garantir que não é possível remover um adjudicatario que celebrou contratos públicos.
 
@@ -71,7 +75,7 @@
 										comprimento(L, N), N == 1).
 
 
-%Garantir que o Nif do adjudicatário é único.
+%Garantir que o Nif do adjudicante é único.
 
 +adjudicante(_,_, Nif, _) :: (solucoes(Nif, adjudicante(_,_,Nif,_), L),
 comprimento(L, N), N == 1).
@@ -115,8 +119,13 @@ comprimento(L, N), N == 1).
 
 +contrato(_,_,_,_,_,TP,_,_,_,_,_) :: tipoProcedimentoValido(TP).
 
-% Garantir que o tipo de atividade economica de um contrato com um determinado id de adjudicatario é válido.
+
+
+
+% Garantir que o tipo de atividade economica de adjudicatario num contrato é válida.
 +contrato(_,_,IdAda,AE,_,_,_,_,_,_,_) :: validaAE(IdAda,AE).
+
+
 
 
 % Garantir que um contrato por ajuste direto tem valor igual ou inferior a 5000 euros, tem prazo de vigência de um ano a contar da data da adjudicação e que se refere apenas a contrato de aquisição ou locação de bens móveis ou aquisição de serviços.
