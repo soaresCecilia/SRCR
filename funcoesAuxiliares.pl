@@ -154,16 +154,18 @@ concat([X|XS1], R, [X|XS2]) :- concat(XS1, R, XS2).
 %encontrarTudo(IdAd,IdAda,AE,TC,Data, CS) :- encontraContratosA0(IdAd,IdAda,AE,TC,Data, CS0), encontraContratosA1(IdAd,IdAda,AE,TC,Data, CS1), concat(CS0,CS1,CSR),encontraContratosA2(IdAd,IdAda,AE,TC,Data, CS2), concat(CSR,CS2,CS).
 
 %------ testar com esta nova versão, é mais bonita, e parece funcionar.
-encontrarTudo(IdAd,IdAda,AE,TC,data(D,M,A), CS) :- solucoes((contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A)), contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A-1)) , contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A-2)) ),
-															(contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A))),
-																CS).
+% agora a lista devolvida por este encontrarTudo é do tipo [(contrato,contrato,...)], e a nossa soma do calculaValorTotal está a aceitar [contrato,contrato,...]
+
+encontrarTudo(IdAd,IdAda,AE,TC,data(D,M,A), CS) :- solucoes([contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A0)),  contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A1)), contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A2))],
+															  (A0 is A,A1 is A-1,A2 is A-2,contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A0)),contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A1)),contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A2))),
+															     CS).
 
 % somatorio dos elementos da lista ex: [1,2,3,4],S ======= 10
 soma([],0).
 soma([contrato(_,_,_,_,_,_,_,Valor,_,_,_)|XS],Total) :- soma(XS, Acumulado), Total is Valor + Acumulado.
 
 %calcula valor total dos contratos
-calculaValorTotal(CS, VT) :- soma(CS,VT).
+calculaValorTotal([CS], VT) :- soma(CS,VT).
 
 %Confirma se valor total encontrado mais o que queremos inserir é válido
 confirmaValor(Valor) :- Valor =<75000.
