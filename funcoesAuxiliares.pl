@@ -138,26 +138,12 @@ ajusteDiretoValido(TC, Custo, Prazo) :- tipoAjusteD(TC),
 
 
 %---------------------------------------------------------------------------------
-% Contrato entre o mesmo Adjudicante e Adjudicatario, com o mesmo tipo de Contrato, e valor de contratos nos 3 anos economicos (incluindo o atual) anteriores, não pode ultrapasaar os 75000 euros
-	
-
-%ex: encontraContratosA('700500601','100100103','Construcao','Aquisicao de servicos',data(_,_,2021),CS).
-%encontraContratosA0(IdAd,IdAda,AE,TC,data(D,M,A), CS) :- solucoes(contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A)),(contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A))),CS).
-%encontraContratosA1(IdAd,IdAda,AE,TC,data(D,M,A), CS) :- A2 is A-1, solucoes(contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A2)),(contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A2))),CS).
-%encontraContratosA2(IdAd,IdAda,AE,TC,data(D,M,A), CS) :- A3 is A-2, solucoes(contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A3)),(contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A3))),CS).
-
-
-% Concatenar 2 listas ex: [1,2],[3,4],L ======= [1,2,3,4]
-concat([], R, R).
-concat([X|XS1], R, [X|XS2]) :- concat(XS1, R, XS2).
+% Contrato entre o mesmo Adjudicante e Adjudicatario, com o mesmo tipo de Contrato, Actividade Economica, e valor de contratos nos 3 anos economicos (incluindo o atual) anteriores, não pode ultrapasaar os 75000 euros
 
 % ex: encontrarTudo('700500601','100100103','Construcao','Aquisicao de servicos',data(_,_,2021),CS).
-%encontrarTudo(IdAd,IdAda,AE,TC,Data, CS) :- encontraContratosA0(IdAd,IdAda,AE,TC,Data, CS0), encontraContratosA1(IdAd,IdAda,AE,TC,Data, CS1), concat(CS0,CS1,CSR),encontraContratosA2(IdAd,IdAda,AE,TC,Data, CS2), concat(CSR,CS2,CS).
-
-%------ testar com esta nova versão, é mais bonita, e parece funcionar.
 encontrarTudo(IdAd,IdAda,AE,TC,data(D,M,A), CS) :- solucoes(contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A00)),
-															  ((A00 is A;A00 is A-1;A00 is A-2),contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A00)),contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A00)),contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A00))),
-															     CS).
+                                                              ((A00 is A;A00 is A-1;A00 is A-2),contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A00))),
+                                                                 CS).
 
 % somatorio dos elementos da lista ex: [1,2,3,4],S ======= 10
 soma([],0).
@@ -172,8 +158,8 @@ confirmaValor(Valor) :- Valor =<75000.
  
 %regraTresAnos('700500601','100100103','Construcao','Aquisicao de servicos',5000,data(_,_,2021)). resultado esperado yes
 %regraTresAnos('700500601','100100103','Construcao','Aquisicao de servicos',5000000,data(_,_,2021)). resultado esperado No
-
 regraTresAnos(IdAd, IdAda, AEco, TC, Custo, Data) :- encontrarTudo(IdAd, IdAda, AEco, TC, Data, CS), calculaValorTotal(CS, VT), confirmaValor(VT+Custo).
+
 
 %---------------------------------------------------------------------------------
 % Obter os n primeiros elementos de uma lista
@@ -187,7 +173,7 @@ take([X|XS], N1, [X|I]) :- N0 is N1-1, take(XS,N0,I).
 merge_sort([],[]).     % empty list is already sorted
 merge_sort([X],[X]).   % single element list is already sorted
 merge_sort(List,Sorted):-
-    List=[_,_|_],divide(List,L1,L2),     % list with at least two elements is divided into two parts
+    List=[_,_|_],halve(List,L1,L2),     % list with at least two elements is divided into two parts
 	merge_sort(L1,Sorted1),merge_sort(L2,Sorted2),  % then each part is sorted
 	merge(Sorted1,Sorted2,Sorted).                  % and sorted parts are merged
 
@@ -202,4 +188,13 @@ hv(L,L,[],L).      % for lists of even length
 hv(L,[_|L],[],L).  % for lists of odd length
 hv([H|T],Acc,[H|L],B):-hv(T,[_|Acc],L,B).
 
+%---------------------------------------------------------------------------------
+% Incluir todos os adjudicatarios que façam match com o nosso objetivo
 
+includeAdjudicatario(_Goal, [], []).
+includeAdjudicatario(Goal, [adjudicatario(Id,AEL,Nome,Nif,Morada)|Tail], Included) :-
+    includeAdjudicatario(Goal, Tail, IncludedSoFar),
+    ( pertence(Goal, AEL)
+    -> Included = [adjudicatario(Id,AEL,Nome,Nif,Morada)|IncludedSoFar]
+    ; Included = IncludedSoFar
+    ).
