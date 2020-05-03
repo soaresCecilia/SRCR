@@ -4,7 +4,6 @@
 %--------- Adjudicante
 
 
-
 % Identificar Adjudicante pelo ID
 adjudicanteID(Id, L) :-
 solucoes(adjudicante(Id,Nome,Nif,Morada),
@@ -55,8 +54,9 @@ adjudicatarioMorada(Morada, L) :-
 solucoes(adjudicatario(Id,AE,Nome,Nif,Morada),
 adjudicatario(Id,AE,Nome,Nif,Morada), L).
 
+
 %Listar todos os Adjudicatarios com a mesma Atividade Economica
-adjudicatarioAE(AE,L) :- solucoes((adjudicatario(Id,AE,Nome,Nif,Morada)), adjudicatario(Id,AE,Nome,Nif,Morada) , L).
+adjudicatarioOneAE(AE,L) :- solucoes(adjudicatario(Id,AEL,Nome,Nif,Morada), adjudicatario(Id,AEL,Nome,Nif,Morada) , L1), includeAdjudicatario(AE,L1,L).
 
 %-------- Contrato
 
@@ -73,16 +73,17 @@ solucoes(contrato(IdC,IdAd,IdAda,AE,TC,TP,Des,C,P,Local,Data),
 contrato(IdC,IdAd,IdAda,AE,TC,TP,Des,C,P,Local,Data),L).
 
 
-
 % Identificar Contrato pelo Adjudicatario
 contratoIDAda(IdAda, L) :-
 solucoes(contrato(IdC,IdAd,IdAda,AE,TC,TP,Des,C,P,Local,Data),
 contrato(IdC,IdAd,IdAda,AE,TC,TP,Des,C,P,Local,Data),L).
 
+
 % Identificar Contrato pela atividade economica
 contratoAE(AtividadeEconomica, L) :-
 solucoes(contrato(IdC,IdAd,IdAda,AtividadeEconomica,TipoContrato,TP,Des,C,P,Local,Data),
 contrato(IdC,IdAd,IdAda,AtividadeEconomica,TipoContrato,TP,Des,C,P,Local,Data),L).
+
 
 % Identificar Contrato pelo tipo do mesmo
 contratoTC(TipoContrato, L) :-
@@ -118,6 +119,7 @@ contrato(IdC,IdAd,IdAda,AE,TC,TP,Des,C,Prazo,Local,Data),L).
 contratoLocal(Local, L) :-
 solucoes(contrato(IdC,IdAd,IdAda,AE,TC,TP,Des,C,P,Local,Data),
 contrato(IdC,IdAd,IdAda,AE,TC,TP,Des,C,P,Local,Data),L).
+
 
 % Identificar Contrato pela Data
 contratoData(Data, L) :-

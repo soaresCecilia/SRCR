@@ -155,8 +155,8 @@ concat([X|XS1], R, [X|XS2]) :- concat(XS1, R, XS2).
 
 %------ testar com esta nova versão, é mais bonita, e parece funcionar.
 encontrarTudo(IdAd,IdAda,AE,TC,data(D,M,A), CS) :- solucoes(contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A00)),
-															  ((A00 is A;A00 is A-1;A00 is A-2),contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A00)),contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A00)),contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A00))),
-															     CS).
+                                                              ((A00 is A;A00 is A-1;A00 is A-2),contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A00))),
+                                                                 CS).
 
 % somatorio dos elementos da lista ex: [1,2,3,4],S ======= 10
 soma([],0).
@@ -186,7 +186,7 @@ take([X|XS], N1, [X|I]) :- N0 is N1-1, take(XS,N0,I).
 merge_sort([],[]).     % empty list is already sorted
 merge_sort([X],[X]).   % single element list is already sorted
 merge_sort(List,Sorted):-
-    List=[_,_|_],divide(List,L1,L2),     % list with at least two elements is divided into two parts
+    List=[_,_|_],halve(List,L1,L2),     % list with at least two elements is divided into two parts
 	merge_sort(L1,Sorted1),merge_sort(L2,Sorted2),  % then each part is sorted
 	merge(Sorted1,Sorted2,Sorted).                  % and sorted parts are merged
 
@@ -201,4 +201,13 @@ hv(L,L,[],L).      % for lists of even length
 hv(L,[_|L],[],L).  % for lists of odd length
 hv([H|T],Acc,[H|L],B):-hv(T,[_|Acc],L,B).
 
+%---------------------------------------------------------------------------------
+% Incluir todos os adjudicatarios que façam match com o nosso objetivo
 
+includeAdjudicatario(_Goal, [], []).
+includeAdjudicatario(Goal, [adjudicatario(Id,AEL,Nome,Nif,Morada)|Tail], Included) :-
+    includeAdjudicatario(Goal, Tail, IncludedSoFar),
+    ( pertence(Goal, AEL)
+    -> Included = [adjudicatario(Id,AEL,Nome,Nif,Morada)|IncludedSoFar]
+    ; Included = IncludedSoFar
+    ).
