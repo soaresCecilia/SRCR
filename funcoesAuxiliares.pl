@@ -155,7 +155,7 @@ concat([X|XS1], R, [X|XS2]) :- concat(XS1, R, XS2).
 
 %------ testar com esta nova versão, é mais bonita, e parece funcionar.
 encontrarTudo(IdAd,IdAda,AE,TC,data(D,M,A), CS) :- solucoes(contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A00)),
-															  ((A00 is A;A00 is A-1;A00 is A-2),contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A00)),contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A00)),contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A00))),
+															  ((A00 is A;A00 is A-1;A00 is A-2),contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A00))),
 															     CS).
 
 % somatorio dos elementos da lista ex: [1,2,3,4],S ======= 10
