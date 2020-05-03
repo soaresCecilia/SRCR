@@ -28,6 +28,8 @@
 
 :- include('custosLucros.pl').
 
+:- include('estado.pl').
+
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 
 % Invariantes Estruturais e Referenciais

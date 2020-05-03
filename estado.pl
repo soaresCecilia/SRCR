@@ -34,9 +34,9 @@ fail; true.
 guardaEstado :-
 open('baseConhecimento.pl', write, Stream),
 write(Stream, '\n% adjudicante: IdAd,Nome,Nif,Morada -> {V,F}\n'),
-saveAdjudicante(Stream),
+guardaAdjudicante(Stream),
 write(Stream, '\n% adjudicatario: IdAda,AE,Nome,Nif,Morada -> {V,F}\n'),
-saveAdjudicatario(Stream),
-write(Stream, '\n% contrato: #IdCont,IdAd,ActividadeEconomica, IdAda,TipoContrato,TipoProc,Descricao,#Custo,#Prazo,Local,#Data -> {V,F}\n'),
-saveContrato(Stream),
+guardaAdjudicatario(Stream),
+write(Stream, '\n% contrato: #IdCont,IdAd,IdAda,ActividadeEconomica,TipoContrato,TipoProc,Descricao,#Custo,#Prazo,Local,#Data -> {V,F}\n'),
+guardaContrato(Stream),
 close(Stream).
