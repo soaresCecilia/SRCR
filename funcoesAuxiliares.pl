@@ -137,23 +137,9 @@ ajusteDiretoValido(TC, Custo, Prazo) :- tipoAjusteD(TC),
 
 
 %---------------------------------------------------------------------------------
-% Contrato entre o mesmo Adjudicante e Adjudicatario, com o mesmo tipo de Contrato, e valor de contratos nos 3 anos economicos (incluindo o atual) anteriores, não pode ultrapasaar os 75000 euros
-	
-
-%ex: encontraContratosA('700500601','100100103','Construcao','Aquisicao de servicos',data(_,_,2021),CS).
-%encontraContratosA0(IdAd,IdAda,AE,TC,data(D,M,A), CS) :- solucoes(contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A)),(contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A))),CS).
-%encontraContratosA1(IdAd,IdAda,AE,TC,data(D,M,A), CS) :- A2 is A-1, solucoes(contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A2)),(contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A2))),CS).
-%encontraContratosA2(IdAd,IdAda,AE,TC,data(D,M,A), CS) :- A3 is A-2, solucoes(contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A3)),(contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A3))),CS).
-
-
-% Concatenar 2 listas ex: [1,2],[3,4],L ======= [1,2,3,4]
-concat([], R, R).
-concat([X|XS1], R, [X|XS2]) :- concat(XS1, R, XS2).
+% Contrato entre o mesmo Adjudicante e Adjudicatario, com o mesmo tipo de Contrato, Actividade Economica, e valor de contratos nos 3 anos economicos (incluindo o atual) anteriores, não pode ultrapasaar os 75000 euros
 
 % ex: encontrarTudo('700500601','100100103','Construcao','Aquisicao de servicos',data(_,_,2021),CS).
-%encontrarTudo(IdAd,IdAda,AE,TC,Data, CS) :- encontraContratosA0(IdAd,IdAda,AE,TC,Data, CS0), encontraContratosA1(IdAd,IdAda,AE,TC,Data, CS1), concat(CS0,CS1,CSR),encontraContratosA2(IdAd,IdAda,AE,TC,Data, CS2), concat(CSR,CS2,CS).
-
-%------ testar com esta nova versão, é mais bonita, e parece funcionar.
 encontrarTudo(IdAd,IdAda,AE,TC,data(D,M,A), CS) :- solucoes(contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A00)),
                                                               ((A00 is A;A00 is A-1;A00 is A-2),contrato(_,IdAd,IdAda,AE,TC,_,_,Valor,_,_,data(D,M,A00))),
                                                                  CS).
@@ -171,8 +157,8 @@ confirmaValor(Valor) :- Valor =<75000.
  
 %regraTresAnos('700500601','100100103','Construcao','Aquisicao de servicos',5000,data(_,_,2021)). resultado esperado yes
 %regraTresAnos('700500601','100100103','Construcao','Aquisicao de servicos',5000000,data(_,_,2021)). resultado esperado No
-
 regraTresAnos(IdAd, IdAda, AEco, TC, Custo, Data) :- encontrarTudo(IdAd, IdAda, AEco, TC, Data, CS), calculaValorTotal(CS, VT), confirmaValor(VT+Custo).
+
 
 %---------------------------------------------------------------------------------
 % Obter os n primeiros elementos de uma lista
