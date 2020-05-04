@@ -5,22 +5,22 @@
 % Evolução de conhecimento perfeito (positivo e negativo)
 
 % Insere novo conhecimento na base de conhecimento
-evolucao(T) :-
-    solucoes(I, +T::I, Linv),
-    insercao(T),
-    teste(Linv).
+evolucao(Termo) :-
+    solucoes(Invariante, +Termo::Invariante, Lista),
+    insercao(Termo),
+    teste(Lista).
 
 % Insere conhecimento perfeito positivo na base de conhecimento
-evolucao(T, positivo) :-
-    solucoes(I, +T::I, Linv),
-    insercao(T),
-    teste(Linv).
+evolucao(Termo, positivo) :-
+    solucoes(Invariante, +Termo::Invariante, Lista),
+    insercao(Termo),
+    teste(Lista).
 
 % Insere conhecimento perfeito negativo na base de conhecimento
-evolucao(T, negativo) :-
-    solucoes(I, +(-T)::I, Linv),
-    insercao(-T),
-    teste(Linv).
+evolucao(Termo, negativo) :-
+    solucoes(Invariante, +(-Termo)::Invariante, Lista),
+    insercao(-Termo),
+    teste(Lista).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Evolução de conhecimento imperfeito incerto
@@ -140,21 +140,21 @@ evolucao(adjudicante(IdAd, Nome, Nif, Morada_imprecisa), adjudicante, impreciso,
 % Involução de conhecimento perfeito (positivo e negativo)
 
 % Retira conhecimento da base de conhecimento
-involucao(T) :-
-    solucoes(I, -T::I, Linv),
-    remocao(T),
+involucao(Termo) :-
+    solucoes(Invariante, -Termo::Invariante, Linv),
+    remocao(Termo),
     teste(Linv).
 
 % Retira conhecimento perfeito positivo na base de conhecimento
-involucao(T, positivo) :-
-    solucoes(I, -T::I, Linv),
-    remocao(T),
+involucao(Termo, positivo) :-
+    solucoes(Invariante, -Termo::Invariante, Linv),
+    remocao(Termo),
     teste(Linv).
 
 % Retira conhecimento perfeito negativo na base de conhecimento
-involucao(T, negativo) :-
-    solucoes(I, -(-T)::I, Linv),
-    remocao(-T),
+involucao(Termo, negativo) :-
+    solucoes(Invariante, -(-Termo)::Invariante, Linv),
+    remocao(-Termo),
     teste(Linv).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
