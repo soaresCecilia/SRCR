@@ -110,6 +110,10 @@ comprimento(L, 1)).
 +adjudicatario(_,AE,_,_,_) :: (verificaAE(AE)).
 
 
+% Garantir que as Atividade Economicas introduzidas no adjudicatario são todas válidas, tendo uma inválida, não deixa introduzir novo adjudicatário para conhecimento perfeito negativo.
++(-adjudicatario(_,AE,_,_,_)) :: (verificaAE(AE)).
+
+
 %Garantir que um adjudicatario tem 1 ou mais atividades economicas
 +adjudicatario(_,AE,_,_,_) :: (length(AE,T), T >=1).
 
@@ -131,16 +135,37 @@ comprimento(L, N), N == 0).
 										comprimento(L, N), N == 1).
 
 
+% Garantir que o id de cada adjudicante é único para conhecimento perfeito negativo.
+
++(-adjudicante(Id,Nome, Nif, Morada)) :: (solucoes(Id, -adjudicante(Id,_,_,_), L),
+comprimento(L, N), N == 1).
+
+
+
 % Garantir que adjudicantes com ids diferentes têm diferente informação
 
 +adjudicante(Id,Nome,Nif, Morada) :: (solucoes((Nome, Nif, Morada), adjudicante(_,Nome, Nif, Morada), L),
 										comprimento(L, N), N == 1).
 
 
+% Garantir que adjudicantes com ids diferentes têm diferente informação para conhecimento negativo.
+
++(-adjudicante(Id,Nome,Nif, Morada)) :: (solucoes((Nome, Nif, Morada), -adjudicante(_,Nome, Nif, Morada), L),
+comprimento(L, N), N == 1).
+
+
+
 %Garantir que o Nif do adjudicante é único.
 
 +adjudicante(_,_, Nif, _) :: (solucoes(Nif, adjudicante(_,_,Nif,_), L),
 								comprimento(L, N), N == 1).
+
+
+%Garantir que o Nif do adjudicante é único no conhecimento negativo.
+
++(-adjudicante(_,_, Nif, _)) :: (solucoes(Nif, -adjudicante(_,_,Nif,_), L),
+comprimento(L, N), N == 1).
+
 
 
 % Garantir que não é possível remover um adjudicante que celebrou contratos públicos.
