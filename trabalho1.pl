@@ -22,6 +22,8 @@
 
 :- include('baseConhecimento.pl').
 
+:- include('EvolucaoInvolucao.pl').
+
 :- include('criteriosSeleccao.pl').
 
 :- include('funcoesAuxiliares.pl').
@@ -30,8 +32,20 @@
 
 :- include('estado.pl').
 
-%--------------------------------- - - - - - - - - - -  -  -  -  -   -
 
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+% Pressuposto do Mundo Fechado
+% para o predicado adjudicatario e para o predicado adjudicante
+
+-adjudicatario(IdAda,AE,Nome,Nif,Morada) :-
+    nao(adjudicatario(IdAda,AE,Nome,Nif,Morada)),
+    nao(excecao(adjudicatario(IdAda,AE,Nome,Nif,Morada))).
+
+-adjudicante(IdAd,Nome,Nif,Morada) :-
+    nao(adjudicante(IdAd,Nome,Nif,Morada)),
+    nao(excecao(adjudicante(IdAd,Nome,Nif,Morada))).
+
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Invariantes Estruturais e Referenciais
 
 
