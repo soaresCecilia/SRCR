@@ -18,6 +18,19 @@ teste( [R|LR] ) :- R, teste( LR ).
 evolucao( Termo ) :- solucoes( Invariante, +Termo::Invariante, Lista),
 insercao( Termo ), teste( Lista ).
 
+
+% Insere conhecimento perfeito positivo na base de conhecimento
+evolucao(Termo, positivo) :-
+solucoes(Invariante, +Termo::Invariante, Lista),
+insercao(Termo),
+teste(Lista).
+
+% Insere conhecimento perfeito negativo na base de conhecimento
+evolucao(Termo, negativo) :-
+solucoes(Invariante, +(-Termo)::I, Lista),
+insercao(-Termo),
+teste(Lista).
+
 % Retira conhecimento da base de conhecimento
 involucao( Termo ) :- solucoes( Invariante, -Termo::Invariante,Lista),
 remocao( Termo ), teste( Lista ).

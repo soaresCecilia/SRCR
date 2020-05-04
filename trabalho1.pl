@@ -35,6 +35,33 @@
 % Invariantes Estruturais e Referenciais
 
 
+% Invariantes Universais
+
+% Invariante que garante que não existe conhecimento
+% perfeito positivo repetido
++Termo :: (solucoes(Termo, Termo, Lista),
+comprimento(Lista, 1)).
+
+% Invariante que garante que não existe conhecimento
+% perfeito negativo repetido
++(-Termo) :: (solucoes(Termo, -Termo, Lista),
+comprimento(Lista, 1)).
+
+% Invariante que não permite adicionar conhecimento
+% perfeito positivo que contradiz conhecimento perfeito negativo
++Termo :: nao(-Termo).
+
+% Invariante que não permite adicionar conhecimento
+% perfeito negativo que contradiz conhecimento perfeito positivo
++(-Termo) :: nao(Termo).
+
+% Invariante que garante que não existem excecoes repetidas
++(excecao(Termo)) :: (solucoes(Termo, excecao(Termo), Lista),
+comprimento(Lista, 1)).
+
+
+
+
 %--------------------------------- Adjudictarios -----------------------------------------------
 
 % Garantir que o id de cada adjudicatario é único
