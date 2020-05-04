@@ -68,12 +68,28 @@ comprimento(Lista, 1)).
 
 +adjudicatario(Id,AE,Nome, Nif, Morada) :: (solucoes(Id, adjudicatario(Id,AE,_,_,_), L), comprimento(L, N), N == 1).
 
+
+% Garantir que o id de cada adjudicatario é único para conhecimento perfeito negativo
++(-adjudicatario(Id,AE,Nome, Nif, Morada)) :: (solucoes(Id, -adjudicatario(Id,_,_,_,_), L),
+comprimento(L, 1)).
+
+
+%Garantir que o Nif do adjudicatário é único para conhecimento perfeito negativo.
++(-adjudicatario(_,_,_,Nif,_)) :: (solucoes(Nif, -adjudicatario(_,_,_,Nif,_), L), comprimento(L, N), N == 1).
+
+
 %Garantir que o Nif do adjudicatário é único.
 +adjudicatario(_,_,_,Nif,_) :: (solucoes(Nif, adjudicatario(_,_,_,Nif,_), L), comprimento(L, N), N == 1).
 
 
 % Garantir que adjudicatarios com ids diferentes têm diferente informação
 +adjudicatario(Id,AE,Nome,Nif, Morada) :: (solucoes((Nome, Nif, Morada), adjudicatario(_,_,Nome, Nif, Morada), L), comprimento(L, N), N == 1).
+
+
+% Garantir que adjudicatarios com ids diferentes têm diferente informação para conhecimento perfeito negativo
++(-adjudicatario(Id,AE,Nome,Nif, Morada)) :: (solucoes((Nome,Nif, Morada), -adjudicatario(_,Nome, Nif, Morada), L),
+comprimento(L, 1)).
+
 
 
 % Garantir que as Atividade Economicas introduzidas no adjudicatario são todas válidas, tendo uma inválida, não deixa introduzir novo adjudicatário
@@ -88,7 +104,8 @@ comprimento(Lista, 1)).
 % Garantir que não é possível remover um adjudicatario que celebrou contratos públicos.
 
 -adjudicatario(Id,_,_,_,_) :: (solucoes(Id, contrato(_,_,Id,_,_,_,_,_,_,_,_), L),
-								comprimento(L, N), N == 0).
+comprimento(L, N), N == 0).
+
 
 
 
