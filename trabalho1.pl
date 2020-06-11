@@ -177,6 +177,13 @@ comprimento(L, N), N == 1).
 
 %---------------------------------- Contratos ------------------------------------------------- 
 
+% Garantir que cada id de contrato é único
++contrato(IdContrato, IdAd, IdAda, AtividadeEconomica, TipoContrato, TipoProcedimento, Descricao, Valor, Prazo, Local, Data) ::
+		(solucoes(IdContrato,
+				contrato(IdContrato, _, _, _, _, _, _, _, _, _, _),
+				  L),
+		comprimento(L, 1)).
+
 % Garantir que cada contrato é único
 +contrato(IdContrato, IdAd, IdAda, AtividadeEconomica, TipoContrato, TipoProcedimento, Descricao, Valor, Prazo, Local, Data) ::
 		(solucoes((IdContrato, IdAd, IdAda,AtividadeEconomica, TipoContrato, TipoProcedimento, Descricao, Valor, Prazo, Local, Data),
