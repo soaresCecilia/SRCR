@@ -26,7 +26,7 @@ adjudicante('700','MJ','500','Lisboa').
 
 %----Adjudicatários: IdAda,AE,Nome,Nif,Morada -> {V,F,D}
 
-adjudicatario('100100100',['Construcao','Comercio'],'JOHNSON & JOHNSON VISION','500153370','Lagoas Park, Ed.9, Oeiras').
+adjudicatario('100100100',['Construcao','Comercio'],'JOHNSON e JOHNSON VISION','500153370','Lagoas Park, Ed.9, Oeiras').
 
 adjudicatario('100100101',['Construcao','Consultoria'],'Seguradoras Unidas, S.A.,','500940231','Av. da Liberdade, Lisboa').
 
@@ -81,11 +81,11 @@ contrato(10,'700','100133787','Educacao','Aquisicao de servicos','Consulta Previ
 %----Adjudicantes: IdAd,Nome,Nif,Morada -> {V,F,D}
 
 % Não se sabe o nome do adjudicante 700212453:
-adjudicante('700212453', nome_desconhecido, '600464576', 'Avenida João XXI, Braga').
+adjudicante('700212453', nome_desconhecido, '600464576', 'Avenida Joao XXI, Braga').
 excecao(adjudicante(IdAd, Nome, Nif, Morada)) :- adjudicante(IdAd, nome_desconhecido, Nif, Morada).
 
 % Não se sabe a sede do adjudicante 700812493:
-adjudicante('700812493', 'Município de Braga', '600469536', sede_desconhecida).
+adjudicante('700812493', 'Municipio de Braga', '600469536', sede_desconhecida).
 excecao(adjudicante(IdAd, Nome, Nif, Morada)) :- adjudicante(IdAd, Nome, Nif, sede_desconhecida).
 
 
@@ -108,23 +108,23 @@ excecao(adjudicatario(IdAda, AE, Nome, Nif, Morada)) :- adjudicatario(IdAda, AE,
 %----Adjudicantes: IdAd,Nome,Nif,Morada -> {V,F,D}
 
 % Não se sabe se o adjudicante 742212453 é o Município de Viana do Castelo ou de Barcelos: 
-excecao(adjudicante('742212453', 'Município de Viana do Castelo', '612464576', 'Praça da República')).
-excecao(adjudicante('742212453', 'Município de Barcelos', '612464576', 'Praça da República')).
+excecao(adjudicante('742212453', 'Municipio de Viana do Castelo', '612464576', 'Praca da Republica')).
+excecao(adjudicante('742212453', 'Municipio de Barcelos', '612464576', 'Praca da Republica')).
 
 % Não se sabe se a morada do adjudicante 792212453 é Praça do Conde de Agrolongo, Braga ou Praça do Conde de Agrolongo, Porto:
-excecao(adjudicante('792212453', 'Município de Linhares', '666464576', 'Praça do Conde de Agrolongo, Braga')).
-excecao(adjudicante('792212453', 'Município de Linhares', '666464576', 'Praça do Conde de Agrolongo, Porto')).
+excecao(adjudicante('792212453', 'Municipio de Linhares', '666464576', 'Praca do Conde de Agrolongo, Braga')).
+excecao(adjudicante('792212453', 'Municipio de Linhares', '666464576', 'Praca do Conde de Agrolongo, Porto')).
 
 %----Adjudicatários: IdAda,AE,Nome,Nif,Morada -> {V,F,D}
 
 % Não se sabe se o adjudicatário 102669100 é o 'J.GOMES S.A' ou 'J.GOMES LDA.' ou 'J.GOMES Unipessoal':
-excecao(adjudicatario('102669100', ['Construcao'], 'J.GOMES S.A', '529234213', 'Esporões, Braga')).
-excecao(adjudicatario('102669100', ['Construcao'], 'J.GOMES LDA.', '529234213', 'Esporões, Braga')).
-excecao(adjudicatario('102669100', ['Construcao'], 'J.GOMES Unipessoal', '529234213', 'Esporões, Braga')).
+excecao(adjudicatario('102669100', ['Construcao'], 'J.GOMES S.A', '529234213', 'Esporoes, Braga')).
+excecao(adjudicatario('102669100', ['Construcao'], 'J.GOMES LDA.', '529234213', 'Esporoes, Braga')).
+excecao(adjudicatario('102669100', ['Construcao'], 'J.GOMES Unipessoal', '529234213', 'Esporoes, Braga')).
 
 % Não se sabe se a sede do adjudicatário é em Braga, Guimarães ou Porto:
 excecao(adjudicatario('102669190', ['Comercio'], 'SONAE IM S.A', '529234299', 'Braga')).
-excecao(adjudicatario('102669190', ['Comercio'], 'SONAE IM S.A', '529234299', 'Guimarães')).
+excecao(adjudicatario('102669190', ['Comercio'], 'SONAE IM S.A', '529234299', 'Guimaraes')).
 excecao(adjudicatario('102669190', ['Comercio'], 'SONAE IM S.A', '529234299', 'Porto')).
 
 
@@ -136,21 +136,20 @@ excecao(adjudicatario('102669190', ['Comercio'], 'SONAE IM S.A', '529234299', 'P
 %----Adjudicantes: IdAd,Nome,Nif,Morada -> {V,F,D}
 
 % É impossível saber a sede do adjudicante 781135453:
-adjudicante(adjudicante('781135453', 'Município de Poiares', '647621276', secret)).
+adjudicante('781135453', 'Municipio de Poiares', '647621276', secret).
 excecao(adjudicante(IdAd, Nome, Nif, Morada)) :- 
 	adjudicante(IdAd, Nome, Nif, secret).
 nulo(secret).
 
-+adjudicante(IdAd, Nome, Nif, Morada) :: (findall((IdAd, Nome, Nif, Morada), (adjudicante(IdAd, Nome, Nif, M),
-			nao(nulo(M))) , S), comprimento(S, N), N == 0).	
++adjudicante(IdAd, Nome, Nif, Morada) :: (solucoes(Morada, (adjudicante('781135453', 'Municipio de Poiares', '647621276', Morada), nao(nulo(Morada))), S), comprimento(S, N), N==0).
+
 
 %----Adjudicatários: IdAda,AE,Nome,Nif,Morada -> {V,F,D}
 
 % É impossível saber o nome do adjudicatário
-adjudicatario(adjudicatario('102270299', ['Construcao', 'Comercio'], secret, '530145613', 'Lisboa')).
+adjudicatario('102270299', ['Construcao', 'Comercio'], secret, '530145613', 'Lisboa').
 excecao(adjudicatario(IdAda, AE, Nome, Nif, Morada)) :- 
 	adjudicatario(IdAda, AE, secret, Nif, Morada).
 nulo(secret).	
 
-+adjudicatario(IdAda, AE, Nome, Nif, Morada) :: (findall((IdAda, AE, Nome, Nif, Morada), (adjudicatario(IdAda, AE, Name, Nif, Morada),
-			nao(nulo(Name))) , S), comprimento(S, N), N == 0).	
++adjudicatario(IdAda, AE, Nome, Nif, Morada) :: (solucoes(Nome, (adjudicatario('102270299', ['Construcao', 'Comercio'], Nome, '530145613', 'Lisboa'), nao(nulo(Nome))), S), comprimento(S, N), N==0).
