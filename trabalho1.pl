@@ -80,7 +80,7 @@ comprimento(Lista, 1)).
 
 % Garantir que o id de cada adjudicatario é único
 
-+adjudicatario(Id,AE,Nome, Nif, Morada) :: (solucoes(Id, adjudicatario(Id,AE,_,_,_), L), comprimento(L, N), N == 1).
++adjudicatario(Id,AE,Nome, Nif, Morada) :: (solucoes(Id, adjudicatario(Id,_,_,_,_), L), comprimento(L, N), N == 1).
 
 
 % Garantir que o id de cada adjudicatario é único para conhecimento perfeito negativo
