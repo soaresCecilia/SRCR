@@ -17,6 +17,8 @@
 :- dynamic contrato/11.       /* */
 :- dynamic data/3.            /* (Dia-Mes-Ano) */
 
+:- dynamic excecao/1.
+
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 
