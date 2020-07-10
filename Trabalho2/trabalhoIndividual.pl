@@ -43,7 +43,7 @@ depthFirst(Origem, Destino, Visitados,
 
 
 
-%----------Pesquisa em Profundidade limitada a 10 cidades
+%----------Pesquisa em Profundidade limitada a 5 cidades
 
 pesquisaEmProfundidade(Origem, Destino, Caminho):-
     pesquisaEmProfundidade2( Origem, Destino, [Origem], Caminho).
@@ -51,11 +51,11 @@ pesquisaEmProfundidade(Origem, Destino, Caminho):-
 pesquisaEmProfundidade2(Destino, Destino, _, []).
 pesquisaEmProfundidade2(Origem, Destino, Visitados, [(Origem, ProxNodo, Distancia)|Caminho]) :-
     tamanhoLista(Visitados, Tamanho),
-        Tamanho < 10,
+        Tamanho < 5,
     proximoNodo(Origem, ProxNodo, Distancia, Visitados),
     pesquisaEmProfundidade2(ProxNodo, Destino, [ProxNodo|Visitados], Caminho),
         tamanhoLista(Caminho, Total),
-        Total < 10.
+        Total < 5.
 
 
 
@@ -86,6 +86,8 @@ breadthFirst([(Estado, Vs)|Xs]-Ys, Historico, Destino, Caminho):-
 %--------------------------------------------------------
 % b) Selecionar apenas cidades, com uma determinada caraterística, para um determinado trajeto;
 
+
+
 %--------------------------------------------------------
 % c) Excluir uma ou mais caracteristicas de cidades para um percurso;
 
@@ -108,6 +110,8 @@ menorPercursoCidades(Origem, Destino, Caminho):-
     findall(Caminho, pesquisaEmProfundidade(Origem, Destino, Caminho), Lista),
     menorLista(Lista, Caminho).
 
+
+
 %--Pesquisa em Largura
 
 menorPercursoCidadesBF(Origem, Destino, Caminho):-
@@ -121,7 +125,7 @@ menorLista(Lista, Caminho).
 % f) Escolher o percurso mais rápido (usando o critério da distância);
 
 
-%----Pesquisa em Profundidade Limitada a 10 cidades
+%----Pesquisa em Profundidade Limitada
 
 depthFirstMenorDistancia(Origem, Destino, Caminho, Custo):-
     depthFirstMenorDistancia( Origem, Destino, [Origem], Caminho, Custo).
@@ -129,11 +133,11 @@ depthFirstMenorDistancia(Origem, Destino, Caminho, Custo):-
 depthFirstMenorDistancia(Destino, Destino, _, [],0).
 depthFirstMenorDistancia(Origem, Destino, Visitados, [(Origem, ProxNodo, Distancia)|Caminho], Custo) :-
     tamanhoLista(Visitados, Total),
-        Total < 10,
+        Total < 200,
     proximoNodo(Origem, ProxNodo, Distancia, Visitados),
     depthFirstMenorDistancia(ProxNodo, Destino, [ProxNodo|Visitados], Caminho, CustoVisitados),
         tamanhoLista(Caminho, TotalV),
-        TotalV < 10,
+        TotalV < 200,
         Custo is Distancia + CustoVisitados.
 
 
@@ -153,6 +157,26 @@ maisRapido(Origem, Destino, Caminho, Distancia):- findall((Trajecto, DistanciaTo
 
 %--------------------------------------------------------
 % g) Escolher um percurso que passe apenas por cidades “minor”;
+
+
+%--------------- Pesquisa em Profundidade
+
+
+
+apenasCidadesMinor(Origem, Destino, Caminho):-
+    cidadeMinor(Origem),
+    apenasCidadesMinor( Origem, Destino, [Origem], Caminho).
+
+apenasCidadesMinor(Destino, Destino, _, []).
+
+apenasCidadesMinor(Origem, Destino, Visitados, [(Origem, ProxNodo, Distancia)|Caminho]) :-
+    tamanhoLista(Visitados, Tamanho),
+        Tamanho < 115,
+    proximoNodo(Origem, ProxNodo, Distancia, Visitados),
+    cidadeMinor(ProxNodo),
+    apenasCidadesMinor(ProxNodo, Destino, [ProxNodo|Visitados], Caminho),
+        tamanhoLista(Caminho, Total),
+        Total < 115.
 
 
 

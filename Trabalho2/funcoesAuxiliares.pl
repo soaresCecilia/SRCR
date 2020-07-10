@@ -54,7 +54,8 @@ menorLista([ListaX,ListaY|CaudaDeListas], Menor) :-
 menorLista([ListaX,ListaY|CaudaDeListas], Menor):- menorLista([ListaY|CaudaDeListas], Menor).
 
 
-
+% Verifica se uma cidade tem poderes administrativos minor
+cidadeMinor(IDCidade) :- cidade(IDCidade, _, _, _, _, PoderesAdminist, _, _, _, _), PoderesAdminist == 'minor'.
 
 
 

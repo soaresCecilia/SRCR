@@ -34,14 +34,14 @@ class Cidade {
         writer.write("%SISTEMAS DE REPRESENTAÇÃO  DO CONHECIMENTO E RACIOCINIO \n\n");
         writer.write("%-------------------------------Base de Conhecimento------------------------------ \n");
         writer.write("%-------------------------------------------------------------  \n");
-        writer.write("%Cidade: Id,Lat,Long,RespAdminist, PoderesAdminist, CidadesAdjac," +
+        writer.write("%Cidade: Id,Lat,Long,Designacao,RespAdminist, PoderesAdminist, CidadesAdjac," +
                        "PatrimMundial, Castelos, CemMilHabit -> {V,F} \n\n");
     }
 
     public void escreveEmFicheiro(FileWriter writer) throws IOException {
         writer.write("cidade(" + IDCidade + "," + latitude + "," + longitude +
-                ",\"" + nomeCidade + "\",\"" + responsavelAdministrativo + "\",\"" +
-                tipoPoderesAdministrativos + "\"," + cidadesAdjacentes + "," + patrimonioMundial +
+                ",'" + nomeCidade + "','" + responsavelAdministrativo + "','" +
+                tipoPoderesAdministrativos + "'," + cidadesAdjacentes + "," + patrimonioMundial +
                 "," + castelo + "," +  cemMilHabitantes + ").\n");
     }
 
