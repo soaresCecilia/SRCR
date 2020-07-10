@@ -86,10 +86,64 @@ breadthFirst([(Estado, Vs)|Xs]-Ys, Historico, Destino, Caminho):-
 %--------------------------------------------------------
 % b) Selecionar apenas cidades, com uma determinada caraterística, para um determinado trajeto;
 
+% b.1) Apenas cidades com Castelos
+
+%--Pesquisa em Profundidade
+apenasCidadesComCastelo(Origem, Destino, Caminho):-
+    cidadeComCastelo(Origem),
+    apenasCidadesMinor( Origem, Destino, [Origem], Caminho).
+
+apenasCidadesComCastelo(Destino, Destino, _, []).
+
+apenasCidadesComCastelo(Origem, Destino, Visitados, [(Origem, ProxNodo, Distancia)|Caminho]) :-
+    tamanhoLista(Visitados, Tamanho),
+        Tamanho < 115,
+    proximoNodo(Origem, ProxNodo, Distancia, Visitados),
+    cidadeComCastelo(ProxNodo),
+    apenasCidadesComCastelo(ProxNodo, Destino, [ProxNodo|Visitados], Caminho),
+        tamanhoLista(Caminho, Total),
+        Total < 115.
+
+
+% b.2) Apenas cidades Património Mundial
+
+apenasCidadesPatrimonio(Origem, Destino, Caminho):-
+    cidadePatrimonioMundial(Origem),
+    apenasCidadesPatrimonio( Origem, Destino, [Origem], Caminho).
+
+apenasCidadesPatrimonio(Destino, Destino, _, []).
+
+apenasCidadesPatrimonio(Origem, Destino, Visitados, [(Origem, ProxNodo, Distancia)|Caminho]) :-
+    tamanhoLista(Visitados, Tamanho),
+        Tamanho < 115,
+    proximoNodo(Origem, ProxNodo, Distancia, Visitados),
+    cidadePatrimonioMundial(ProxNodo),
+    apenasCidadesPatrimonio(ProxNodo, Destino, [ProxNodo|Visitados], Caminho),
+        tamanhoLista(Caminho, Total),
+        Total < 115.
+
+% b.3) Apenas cidades com mais de cem mil habitantes
+
+apenasCidadesPopulosas(Origem, Destino, Caminho):-
+    cidadePopulosa(Origem),
+    apenasCidadesPopulosas( Origem, Destino, [Origem], Caminho).
+
+apenasCidadesPopulosas(Destino, Destino, _, []).
+
+apenasCidadesPopulosas(Origem, Destino, Visitados, [(Origem, ProxNodo, Distancia)|Caminho]) :-
+    tamanhoLista(Visitados, Tamanho),
+        Tamanho < 115,
+    proximoNodo(Origem, ProxNodo, Distancia, Visitados),
+    cidadePopulosa(ProxNodo),
+    apenasCidadesPopulosas(ProxNodo, Destino, [ProxNodo|Visitados], Caminho),
+        tamanhoLista(Caminho, Total),
+        Total < 115.
 
 
 %--------------------------------------------------------
 % c) Excluir uma ou mais caracteristicas de cidades para um percurso;
+
+
 
 %--------------------------------------------------------
 % d) Identificar num determinado percurso qual a cidade com o maior número de ligações;
@@ -124,6 +178,7 @@ menorLista(Lista, Caminho).
 %--------------------------------------------------------
 % f) Escolher o percurso mais rápido (usando o critério da distância);
 
+%TODO: NÃO FUNCIONA!!!!
 
 %----Pesquisa em Profundidade Limitada
 
@@ -160,8 +215,6 @@ maisRapido(Origem, Destino, Caminho, Distancia):- findall((Trajecto, DistanciaTo
 
 
 %--------------- Pesquisa em Profundidade
-
-
 
 apenasCidadesMinor(Origem, Destino, Caminho):-
     cidadeMinor(Origem),

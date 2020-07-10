@@ -58,8 +58,11 @@ menorLista([ListaX,ListaY|CaudaDeListas], Menor):- menorLista([ListaY|CaudaDeLis
 cidadeMinor(IDCidade) :- cidade(IDCidade, _, _, _, _, PoderesAdminist, _, _, _, _), PoderesAdminist == 'minor'.
 
 
+% Verifica se uma cidade tem castelo
+cidadeComCastelo(IDCidade) :- cidade(IDCidade, _, _, _, _, _, _, _, Castelo, _), Castelo == 1.
 
+% Verifica se uma cidade é patrimonio mundial
+cidadePatrimonioMundial(IDCidade) :- cidade(IDCidade, _, _, _, _, _, _, PatrimonioMundial, _, _), PatrimonioMundial == 1.
 
-
-
-
+%Verifica se uma cidade tem mais de cem mil habitantes
+cidadePopulosa(IDCidade) :- cidade(IDCidade, _, _, _, _, _, _, _, _, Habitantes), Habitantes == 1.
