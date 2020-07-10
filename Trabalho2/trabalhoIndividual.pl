@@ -26,6 +26,8 @@
 
 % a) Calcular um trajeto possível entre duas cidades;
 
+% TODO: IMPRIMIR Caminho todo
+
 
 %--------------- Pesquisa Depth First - Pesquisa em Profundidade
 %Expandir sempre um dos nós mais profundos da árvore
@@ -41,7 +43,7 @@ depthFirst(Origem, Destino, Visitados,
 
 
 
-%----------Pesquisa em Profundidade limitada a 100 cidades
+%----------Pesquisa em Profundidade limitada a 5 cidades
 
 pesquisaEmProfundidade(Origem, Destino, Caminho):-
     pesquisaEmProfundidade2( Origem, Destino, [Origem], Caminho).
@@ -49,17 +51,33 @@ pesquisaEmProfundidade(Origem, Destino, Caminho):-
 pesquisaEmProfundidade2(Destino, Destino, _, []).
 pesquisaEmProfundidade2(Origem, Destino, Visitados, [(Origem, ProxNodo, Distancia)|Caminho]) :-
     tamanhoLista(Visitados, Tamanho),
-        Tamanho < 100,
+        Tamanho < 2,
     proximoNodo(Origem, ProxNodo, Distancia, Visitados),
     pesquisaEmProfundidade2(ProxNodo, Destino, [ProxNodo|Visitados], Caminho),
         tamanhoLista(Caminho, Total),
-        Total < 100.
+        Total < 2.
 
 
 
 %--------------- Pesquisa Breadth First - Pesqueisa em Largura
 % Todos os nós de menor profundidade são expandidos primeiro
 %ficha11.pl
+
+
+breadthFirst(Origem, Destino, Caminho):-
+    breadthFirst([(Origem, [])|Xs]-Xs, [], Destino, Caminho).
+
+breadthFirst([(Estado, Vs)|_]-_, _, Destino, Rs):-
+    Estado == Destino,!, inverso(Vs, Rs).
+
+breadthFirst([(Estado, _)|Xs]-Ys, Historico, Destino, Caminho):-
+    membro(Estado, Historico),!,
+    breadthFirst(Xs-Ys, Historico, Destino, Caminho).
+
+breadthFirst([(Estado, Vs)|Xs]-Ys, Historico, Destino, Caminho):-
+    setof(((Estado, ProxNodo, Distancia), ProxNodo), adjacencia(Estado, ProxNodo, Distancia), Ls),
+    atualizar(Ls, Vs, [Estado|Historico], Ys-Zs),
+    breadthFirst(Xs-Zs, [Estado|Historico], Destino, Caminho).
 
 
 

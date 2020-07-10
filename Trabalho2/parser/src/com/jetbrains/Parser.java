@@ -39,12 +39,10 @@ class Cidade {
     }
 
     public void escreveEmFicheiro(FileWriter writer) throws IOException {
-        if(IDCidade != 0) {
-            writer.write("cidade(" + IDCidade + "," + latitude + "," + longitude +
-                    ",\"" + nomeCidade + "\",\"" + responsavelAdministrativo + "\",\"" +
-                    tipoPoderesAdministrativos + "\"," + cidadesAdjacentes + "," + patrimonioMundial +
-                    "," + castelo + "," +  cemMilHabitantes + ").\n");
-        }
+        writer.write("cidade(" + IDCidade + "," + latitude + "," + longitude +
+                ",\"" + nomeCidade + "\",\"" + responsavelAdministrativo + "\",\"" +
+                tipoPoderesAdministrativos + "\"," + cidadesAdjacentes + "," + patrimonioMundial +
+                "," + castelo + "," +  cemMilHabitantes + ").\n");
     }
 
 
