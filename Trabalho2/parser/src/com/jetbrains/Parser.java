@@ -28,6 +28,9 @@ class Cidade {
     int castelo;
     int cemMilHabitantes;
 
+    public Cidade(int id) {
+        IDCidade = id;
+    }
 
     public static void escreveCabecalho(FileWriter writer) throws IOException {
         writer.write("SISTEMAS DE REPRESENTAÇÃO  DO CONHECIMENTO E RACIOCINIO \n\n");
@@ -52,7 +55,7 @@ class Cidade {
         if(!dados.equals("")) {
             switch (coluna) {
                 case 0:
-                    IDCidade = Integer.parseInt(dados);
+                    //está definido no contstruror o id;
                     break;
                 case 1:
                     nomeCidade = dados;
@@ -141,14 +144,14 @@ class Adjacencia {
     }
 
 
-    public static Map<Cidade, ArrayList<Adjacencia>> construirAdjacencias(Cidade origem, ArrayList<Cidade> cidades) {
-        Map<Cidade, ArrayList<Adjacencia>> cidadeAdjacenciaMap = new HashMap<Cidade, ArrayList<Adjacencia>>();
+    public static void construirAdjacencias(Cidade origem, ArrayList<Cidade> cidades,
+                                                                          Map<Cidade, ArrayList<Adjacencia>> cidadeAdjacenciaMap) {
 
         ArrayList<Adjacencia> adjacencias = new ArrayList<Adjacencia>();
 
-        for (int j = 0; j < origem.cidadesAdjacentes.size(); j++) {
+        for (int i = 0; i < origem.cidadesAdjacentes.size(); i++) {
             Adjacencia adjacencia = new Adjacencia();
-            int destinoId = origem.cidadesAdjacentes.get(j);
+            int destinoId = origem.cidadesAdjacentes.get(i);
             Cidade cidadeDestino = cidades.get(destinoId);
             adjacencia.adjacencias(origem, cidadeDestino);
             adjacencias.add(adjacencia);
@@ -157,8 +160,6 @@ class Adjacencia {
 
         cidadeAdjacenciaMap.put(origem, adjacencias);
 
-
-        return cidadeAdjacenciaMap;
     }
 
 
@@ -199,10 +200,12 @@ public class Parser {
 
             iteradorLinhaFolha2.next();
 
+            int id = 0;
             while (iteradorLinhaFolha1.hasNext() && iteradorLinhaFolha2.hasNext()){
                 Row linhaSegFolha1 = iteradorLinhaFolha1.next();
                 Row linhaSegFolha2 = iteradorLinhaFolha2.next();
-                Cidade novaCidade = new Cidade();
+                Cidade novaCidade = new Cidade(id);
+                id++;
                 novaCidade.cidadesAdjacentes = new ArrayList<Integer>();
 
                 int coluna = 0;
@@ -243,9 +246,11 @@ public class Parser {
         Map<Cidade, ArrayList<Adjacencia>> cidadeAdjacenciaMap = new HashMap<Cidade, ArrayList<Adjacencia>>();
 
         Cidade.construirAdjacencias(listaCidades);
+        
+        System.out.println("O numero da listaCidades é " + listaCidades.size());
 
         for (int origem = 0; origem < listaCidades.size(); origem++)
-              cidadeAdjacenciaMap = Adjacencia.construirAdjacencias(listaCidades.get(origem), listaCidades);
+            Adjacencia.construirAdjacencias(listaCidades.get(origem), listaCidades, cidadeAdjacenciaMap);
 
         return cidadeAdjacenciaMap;
     }
@@ -293,7 +298,7 @@ public class Parser {
 
         escreveCidades(cidadeAdjacenciaMap);
 
-       // escreveAdjacencias(cidadeAdjacenciaMap);
+       escreveAdjacencias(cidadeAdjacenciaMap);
 
 
         System.out.println("Numero de Cidades : " + cidadeAdjacenciaMap.keySet().size());
