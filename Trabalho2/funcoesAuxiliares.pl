@@ -6,7 +6,7 @@ tamanhoLista([], 0).
 tamanhoLista([Cabeca|Cauda], TotalElementos) :- tamanhoLista(Cauda, Total), TotalElementos is Total+1.
 
 
-% Calcula próximo nodo na pesquisa em profundidade
+% Verifica se o nodo Próximo já foi visitado.
 proximoNodo(Actual, Proximo, Distancia, Caminho) :-
     adjacencia(Actual, Proximo, Distancia),
     naopertence(Proximo, Caminho).
@@ -29,8 +29,7 @@ atualizar([(_,Estado)|Ls], Vs, Historico, Xs-Ys):-
 atualizar([(Move, Estado)|Ls], Vs, Historico, [(Estado, [Move|Vs])|Xs]-Ys) :- atualizar(Ls,Vs, Historico, Xs-Ys).
 
 
-
-%verifica se elemento estºa contido numa lista
+%verifica se elemento está contido numa lista
 membro(X, [X|_]).
 membro(X, [_|Xs]) :- membro(X,Xs).
 
@@ -45,7 +44,14 @@ inverso([X|Xs], Ys, Zs):- inverso(Xs, [X|Ys], Zs).
 
 
 
+%Encontra a lista com menor comprimento num conjunto de listas.
+menorLista([L], L).
+menorLista([ListaX,ListaY|CaudaDeListas], Menor) :-
+    length(ListaX, TamX),
+    length(ListaY, TamY),
+    TamX =< TamY, !, menorLista([ListaX|CaudaDeListas], Menor).
 
+menorLista([ListaX,ListaY|CaudaDeListas], Menor):- menorLista([ListaY|CaudaDeListas], Menor).
 
 
 
