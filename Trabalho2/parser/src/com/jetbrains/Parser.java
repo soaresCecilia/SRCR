@@ -10,10 +10,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 //XSSF (XML Spreadsheet Format) − It is used for xlsx file format of MS-Excel.
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 
 class Cidade {
@@ -32,6 +29,7 @@ class Cidade {
         IDCidade = id;
     }
 
+
     public static void escreveCabecalho(FileWriter writer) throws IOException {
         writer.write("%SISTEMAS DE REPRESENTAÇÃO  DO CONHECIMENTO E RACIOCINIO \n\n");
         writer.write("%-------------------------------Base de Conhecimento------------------------------ \n");
@@ -43,10 +41,23 @@ class Cidade {
     public void escreveEmFicheiro(FileWriter writer) throws IOException {
         if(IDCidade != 0) {
             writer.write("cidade(" + IDCidade + "," + latitude + "," + longitude +
-                    ",'" + nomeCidade + "','" + responsavelAdministrativo + "','" +
-                    tipoPoderesAdministrativos + "'," + cidadesAdjacentes + "," + patrimonioMundial +
+                    ",\"" + nomeCidade + "\",\"" + responsavelAdministrativo + "\",\"" +
+                    tipoPoderesAdministrativos + "\"," + cidadesAdjacentes + "," + patrimonioMundial +
                     "," + castelo + "," +  cemMilHabitantes + ").\n");
         }
+    }
+
+
+
+    public String trataString(String str) {
+        String [] orig = {"é", "É", "à", "á", "Á", "ó", "Ó", "í", "Í", "ú", "Ú", "ç", "ã", "õ", "ô"};
+        String [] dest = {"e", "E", "a", "a", "A", "o", "O", "i", "I", "u", "U", "c", "a", "o", "o"};
+
+        for (int pos = 0; pos < orig.length; pos++) {
+            str = str.replaceAll(orig[pos], dest[pos]);
+        }
+
+        return str;
     }
 
 
@@ -58,7 +69,7 @@ class Cidade {
                     //está definido no contstruror o id;
                     break;
                 case 1:
-                    nomeCidade = dados;
+                    nomeCidade = trataString(dados);
                     break;
                 case 2:
                     latitude = Float.parseFloat(dados);
@@ -67,10 +78,10 @@ class Cidade {
                     longitude = Float.parseFloat(dados);
                     break;
                 case 4:
-                    responsavelAdministrativo = dados;
+                    responsavelAdministrativo = trataString(dados);
                     break;
                 case 5:
-                    tipoPoderesAdministrativos = dados;
+                    tipoPoderesAdministrativos = trataString(dados);
                     break;
                 case 6:
                     patrimonioMundial = Integer.parseInt(dados);
