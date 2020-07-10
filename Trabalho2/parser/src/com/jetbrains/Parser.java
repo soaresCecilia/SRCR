@@ -33,10 +33,10 @@ class Cidade {
     }
 
     public static void escreveCabecalho(FileWriter writer) throws IOException {
-        writer.write("SISTEMAS DE REPRESENTAÇÃO  DO CONHECIMENTO E RACIOCINIO \n\n");
-        writer.write("-------------------------------Base de Conhecimento------------------------------ \n");
-        writer.write("-------------------------------------------------------------  \n");
-        writer.write("Cidade: Id,Lat,Long,RespAdminist, PoderesAdminist, CidadesAdjac," +
+        writer.write("%SISTEMAS DE REPRESENTAÇÃO  DO CONHECIMENTO E RACIOCINIO \n\n");
+        writer.write("%-------------------------------Base de Conhecimento------------------------------ \n");
+        writer.write("%-------------------------------------------------------------  \n");
+        writer.write("%Cidade: Id,Lat,Long,RespAdminist, PoderesAdminist, CidadesAdjac," +
                        "PatrimMundial, Castelos, CemMilHabit -> {V,F} \n\n");
     }
 
@@ -44,8 +44,8 @@ class Cidade {
         if(IDCidade != 0) {
             writer.write("cidade(" + IDCidade + "," + latitude + "," + longitude +
                     ",'" + nomeCidade + "','" + responsavelAdministrativo + "','" +
-                    tipoPoderesAdministrativos + "," + cidadesAdjacentes.toString() + "," + patrimonioMundial +
-                    "," + castelo + "," +  cemMilHabitantes + "').\n");
+                    tipoPoderesAdministrativos + "'," + cidadesAdjacentes + "," + patrimonioMundial +
+                    "," + castelo + "," +  cemMilHabitantes + ").\n");
         }
     }
 
@@ -93,7 +93,7 @@ class Cidade {
 
         double distancia = Precision.round(distanciaEntreCidades, 3); //até às centésimas
 
-        if(distancia <= 0.500) {
+        if(distancia <= 0.400) {
             return true;
         }
 
@@ -246,7 +246,7 @@ public class Parser {
         Map<Cidade, ArrayList<Adjacencia>> cidadeAdjacenciaMap = new HashMap<Cidade, ArrayList<Adjacencia>>();
 
         Cidade.construirAdjacencias(listaCidades);
-        
+
         System.out.println("O numero da listaCidades é " + listaCidades.size());
 
         for (int origem = 0; origem < listaCidades.size(); origem++)
@@ -276,8 +276,8 @@ public class Parser {
     public static void escreveAdjacencias(Map<Cidade, ArrayList<Adjacencia>> cidadesAdjacenciaMap){
         try {
             FileWriter writer = new FileWriter(ficheiroOutput, true);
-            writer.write("\n\n ADJACENCIAS \n\n");
-            writer.write("Adjacencia: Origem, Destino, Distancia -> {V,F} \n\n");
+            writer.write("\n\n %ADJACENCIAS \n\n");
+            writer.write("%Adjacencia: Origem, Destino, Distancia -> {V,F} \n\n");
 
             for(ArrayList<Adjacencia> lista: cidadesAdjacenciaMap.values())
                 for(Adjacencia adjacencia : lista)
