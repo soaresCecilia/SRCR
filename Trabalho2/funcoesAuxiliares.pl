@@ -1,5 +1,5 @@
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Auxiliares
+% Funções Auxiliares
 
 % Calcula o número de elementos de uma lista.
 tamanhoLista([], 0).
@@ -53,6 +53,35 @@ menorLista([ListaX,ListaY|CaudaDeListas], Menor) :-
 
 menorLista([ListaX,ListaY|CaudaDeListas], Menor):- menorLista([ListaY|CaudaDeListas], Menor).
 
+%Encontra a lista com maior comprimento num conjunto de listas.
+maiorLista([L], L).
+maiorLista([(Origem,_,_),(Destino, _,_)|CaudaDeListas], Maior) :-
+    (cidadeID(Origem, Tam1), cidadeID(Destino, Tam2)),
+    Tam1 =< Tam2, !,
+    maiorLista([(Destino, _,_)|CaudaDeListas], Maior).
+
+maiorLista([(Origem,_,_),(Destino, _,_)|CaudaDeListas], Maior):- maiorLista([(Origem, _,_)|CaudaDeListas], Maior).
+           
+
+
+%Identifica cidade pelo id e devolve tamanho das adjacencias
+cidadeID(ID, L):- cidade(ID,_,_,_,_,_,Adjacencia,_,_,_),
+        length(Adjacencia,L).
+
+%Identifica cidade pelo id e devolve nome.
+cidadeNome((ID,_,_), Nome):- cidade(ID,_,_,Nome,_,_,_,_,_,_).
+
+
+
+
+
+
+
+
+
+
+
+
 
 % Verifica se uma cidade tem poderes administrativos minor
 cidadeMinor(IDCidade) :- cidade(IDCidade, _, _, _, _, PoderesAdminist, _, _, _, _), PoderesAdminist == 'minor'.
@@ -66,3 +95,7 @@ cidadePatrimonioMundial(IDCidade) :- cidade(IDCidade, _, _, _, _, _, _, Patrimon
 
 %Verifica se uma cidade tem mais de cem mil habitantes
 cidadePopulosa(IDCidade) :- cidade(IDCidade, _, _, _, _, _, _, _, _, Habitantes), Habitantes == 1.
+
+
+%Exclui cidades com Castelos ou se o seu responsável administrativos for Viseu
+excluiCidade(IDCidade) :- cidade(IDCidade, _, _, _, responsavelAdmin, _, _, _, Castelo, _), Castelo == 0, responsavelAdmin \= 'Viseu'.

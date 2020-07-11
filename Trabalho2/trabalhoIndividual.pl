@@ -43,7 +43,7 @@ depthFirst(Origem, Destino, Visitados,
 
 
 
-%----------Pesquisa em Profundidade limitada a 5 cidades
+%--Pesquisa em Profundidade limitada a 5 cidades
 
 pesquisaEmProfundidade(Origem, Destino, Caminho):-
     pesquisaEmProfundidade2( Origem, Destino, [Origem], Caminho).
@@ -51,15 +51,16 @@ pesquisaEmProfundidade(Origem, Destino, Caminho):-
 pesquisaEmProfundidade2(Destino, Destino, _, []).
 pesquisaEmProfundidade2(Origem, Destino, Visitados, [(Origem, ProxNodo, Distancia)|Caminho]) :-
     tamanhoLista(Visitados, Tamanho),
-        Tamanho < 5,
+        Tamanho < 115,
     proximoNodo(Origem, ProxNodo, Distancia, Visitados),
     pesquisaEmProfundidade2(ProxNodo, Destino, [ProxNodo|Visitados], Caminho),
         tamanhoLista(Caminho, Total),
-        Total < 5.
+        Total < 115.
 
 
 
-%---- Pesquisa Breadth First - Pesqueisa em Largura
+%---- Pesquisa Breadth First - Pesquisa em Largura
+
 % Todos os nós de menor profundidade são expandidos primeiro
 %ficha11.pl
 
@@ -145,8 +146,19 @@ apenasCidadesPopulosas(Origem, Destino, Visitados, [(Origem, ProxNodo, Distancia
 
 
 
+
+
+
+
 %--------------------------------------------------------
 % d) Identificar num determinado percurso qual a cidade com o maior número de ligações;
+
+
+%--Pesquisa em Profundidade - Devolve nome da cidade com mais ligações
+
+maisLigacoes(Origem, Destino, Maior) :-
+    pesquisaEmProfundidade(Origem, Destino, Caminho),
+    maiorLista(Caminho, MaiorLista), cidadeNome(MaiorLista, Maior).
 
 
 
@@ -237,3 +249,4 @@ apenasCidadesMinor(Origem, Destino, Visitados, [(Origem, ProxNodo, Distancia)|Ca
 %--------------------------------------------------------
 % h) Escolher uma ou mais cidades intermédias por onde o percurso deverá obrigatoriamente passar.
  
+
