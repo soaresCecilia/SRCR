@@ -51,11 +51,11 @@ pesquisaEmProfundidade(Origem, Destino, Caminho):-
 pesquisaEmProfundidade2(Destino, Destino, _, []).
 pesquisaEmProfundidade2(Origem, Destino, Visitados, [(Origem, ProxNodo, Distancia)|Caminho]) :-
     tamanhoLista(Visitados, Tamanho),
-        Tamanho < 115,
+        Tamanho < 5,
     proximoNodo(Origem, ProxNodo, Distancia, Visitados),
     pesquisaEmProfundidade2(ProxNodo, Destino, [ProxNodo|Visitados], Caminho),
         tamanhoLista(Caminho, Total),
-        Total < 115.
+        Total < 5.
 
 
 
@@ -89,10 +89,12 @@ breadthFirst([(Estado, Vs)|Xs]-Ys, Historico, Destino, Caminho):-
 
 % b.1) Apenas cidades com Castelos
 
-%--Pesquisa em Profundidade
+%--Pesquisa em Profundidade Limitada
+
+
 apenasCidadesComCastelo(Origem, Destino, Caminho):-
     cidadeComCastelo(Origem),
-    apenasCidadesMinor( Origem, Destino, [Origem], Caminho).
+    apenasCidadesComCastelo( Origem, Destino, [Origem], Caminho).
 
 apenasCidadesComCastelo(Destino, Destino, _, []).
 
@@ -104,7 +106,6 @@ apenasCidadesComCastelo(Origem, Destino, Visitados, [(Origem, ProxNodo, Distanci
     apenasCidadesComCastelo(ProxNodo, Destino, [ProxNodo|Visitados], Caminho),
         tamanhoLista(Caminho, Total),
         Total < 115.
-
 
 % b.2) Apenas cidades Património Mundial
 
@@ -144,9 +145,23 @@ apenasCidadesPopulosas(Origem, Destino, Visitados, [(Origem, ProxNodo, Distancia
 %--------------------------------------------------------
 % c) Excluir uma ou mais caracteristicas de cidades para um percurso;
 
+%--------------- Pesquisa em Profundidade
+%cidades que não são património Mundial
 
+caminhoSemPatrimonioMundial(Origem, Destino, Caminho):-
+    semPatrimonio(Origem),
+    caminhoSemPatrimonioMundial( Origem, Destino, [Origem], Caminho).
 
+caminhoSemPatrimonioMundial(Destino, Destino, _, []).
 
+caminhoSemPatrimonioMundial(Origem, Destino, Visitados, [(Origem, ProxNodo, Distancia)|Caminho]) :-
+    tamanhoLista(Visitados, Tamanho),
+        Tamanho < 115,
+    proximoNodo(Origem, ProxNodo, Distancia, Visitados),
+    semPatrimonio(ProxNodo),
+    caminhoSemPatrimonioMundial(ProxNodo, Destino, [ProxNodo|Visitados], Caminho),
+        tamanhoLista(Caminho, Total),
+        Total < 115.
 
 
 
@@ -156,13 +171,14 @@ apenasCidadesPopulosas(Origem, Destino, Visitados, [(Origem, ProxNodo, Distancia
 
 %--Pesquisa em Profundidade - Devolve nome da cidade com mais ligações
 
-maisLigacoes(Origem, Destino, Maior) :-
+maisLigacoesDF(Origem, Destino, Maior) :-
     pesquisaEmProfundidade(Origem, Destino, Caminho),
-    maiorLista(Caminho, MaiorLista), cidadeNome(MaiorLista, Maior).
+    listIDTamFinal(Caminho, MaiorLista), maximo(MaiorLista, (Id, Tam)), cidadeNome(Id, Maior).
 
 
-
-
+maisLigacoesBF(Origem, Destino, Maior) :-
+breadthFirst(Origem, Destino, Caminho),
+listIDTamFinal(Caminho, MaiorLista), maximo(MaiorLista, (Id, Tam)), cidadeNome(Id, Maior).
 
 
 
@@ -172,7 +188,7 @@ maisLigacoes(Origem, Destino, Maior) :-
 
 %--Pesquisa em Profundidade Limitada
 
-menorPercursoCidades(Origem, Destino, Caminho):-
+menorPercursoCidadesDF(Origem, Destino, Caminho):-
     findall(Caminho, pesquisaEmProfundidade(Origem, Destino, Caminho), Lista),
     menorLista(Lista, Caminho).
 
@@ -226,7 +242,7 @@ maisRapido(Origem, Destino, Caminho, Distancia):- findall((Trajecto, DistanciaTo
 % g) Escolher um percurso que passe apenas por cidades “minor”;
 
 
-%--------------- Pesquisa em Profundidade
+%--------------- Pesquisa em Profundidade Limitada
 
 apenasCidadesMinor(Origem, Destino, Caminho):-
     cidadeMinor(Origem),
@@ -249,4 +265,25 @@ apenasCidadesMinor(Origem, Destino, Visitados, [(Origem, ProxNodo, Distancia)|Ca
 %--------------------------------------------------------
 % h) Escolher uma ou mais cidades intermédias por onde o percurso deverá obrigatoriamente passar.
  
+
+%--------------- Pesquisa em Profundidade
+
+
+%TODO: Não funciona, mas o de cidadesIntermedias funciona.
+
+percursoDF(Origem, Destino, CidadesIntermedias, Caminho):-
+findall(Percurso, pesquisaEmProfundidade(Origem,Destino,Percurso), L),
+cidadesIntermedias(L, CidadesIntermedias, Caminho).
+
+cidadesIntermedias(Percurso,CidadesIntermedias,Caminho).
+
+cidadesIntermedias([Cidade|CaudaCidadesIntermedias], CidadesIntermedias, Caminho):-
+    auxiliar(Cidade, CidadesIntermedias, Caminho);
+    cidadesIntermedias(CaudaCidadesIntermedias, CidadesIntermedias, Caminho).
+
+auxiliar(Caminho, [], Caminho).
+auxiliar(Caminho, [Cidade|CaudaCidadesIntermedias], Solucao):-
+    (member((Cidade, _, _), Caminho); member((_, Cidade, _), Caminho)),
+    auxiliar(Caminho, CaudaCidadesIntermedias, Solucao).
+
 

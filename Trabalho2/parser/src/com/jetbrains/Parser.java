@@ -154,7 +154,7 @@ class Adjacencia {
 
 
     public static void construirAdjacencias(Cidade origem, ArrayList<Cidade> cidades,
-                                                                          Map<Cidade, ArrayList<Adjacencia>> cidadeAdjacenciaMap) {
+                                            Map<Cidade, ArrayList<Adjacencia>> cidadeAdjacenciaMap) {
 
         ArrayList<Adjacencia> adjacencias = new ArrayList<Adjacencia>();
 
@@ -307,7 +307,7 @@ public class Parser {
 
         escreveCidades(cidadeAdjacenciaMap);
 
-       escreveAdjacencias(cidadeAdjacenciaMap);
+        escreveAdjacencias(cidadeAdjacenciaMap);
 
 
         System.out.println("Numero de Cidades : " + cidadeAdjacenciaMap.keySet().size());

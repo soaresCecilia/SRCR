@@ -11,6 +11,11 @@ proximoNodo(Actual, Proximo, Distancia, Caminho) :-
     adjacencia(Actual, Proximo, Distancia),
     naopertence(Proximo, Caminho).
 
+% Verifica se o nodo Próximo já foi visitado.
+proximoNodo(Actual, ProxNodo,Distancia,Caracteristica,Visitados) :-
+    adjacencia(Actual, Proximo, Distancia),
+    naopertence(Proximo, Caminho).
+
 
 % Verifica se um elemento não faz parte de uma lista
 naopertence(Elem, []) :- !.
@@ -53,31 +58,35 @@ menorLista([ListaX,ListaY|CaudaDeListas], Menor) :-
 
 menorLista([ListaX,ListaY|CaudaDeListas], Menor):- menorLista([ListaY|CaudaDeListas], Menor).
 
-%Encontra a lista com maior comprimento num conjunto de listas.
-maiorLista([L], L).
-maiorLista([(Origem,_,_),(Destino, _,_)|CaudaDeListas], Maior) :-
-    (cidadeID(Origem, Tam1), cidadeID(Destino, Tam2)),
-    Tam1 =< Tam2, !,
-    maiorLista([(Destino, _,_)|CaudaDeListas], Maior).
 
-maiorLista([(Origem,_,_),(Destino, _,_)|CaudaDeListas], Maior):- maiorLista([(Origem, _,_)|CaudaDeListas], Maior).
-           
+
+% Calcula o maximo de uma lista de pares
+maximo([(P,X)], (P,X)).
+maximo([(Px,X)|L], (Py, Y)) :- maximo(L, (Py,Y)), X =< Y.
+maximo([(Px,X)|L], (Px, X)) :- maximo(L, (Py,Y)), X > Y.
+
+
+
+listIDTamFinal(Caminho, L) :-
+    listaIDTam(Caminho, A, L).
+
+listaIDTam([], A, A).
+listaIDTam([(Origem, Destino,_)| Cauda], A, L) :-
+    cidadeID(Origem, TamOrigem),
+    cidadeID(Destino, TamDestino),
+    TamOrigem =< TamDestino, !,
+    listaIDTam(Cauda, [(Destino, TamDestino) | A], L).
+listaIDTam([(Origem, Destino,_)| Cauda], A, L) :-
+    cidadeID(Origem, TamOrigem),
+    listaIDTam(Cauda, [(Origem, TamOrigem) | A], L).
 
 
 %Identifica cidade pelo id e devolve tamanho das adjacencias
-cidadeID(ID, L):- cidade(ID,_,_,_,_,_,Adjacencia,_,_,_),
-        length(Adjacencia,L).
+cidadeID(ID, Tam):- cidade(ID,_,_,_,_,_,Adjacencia,_,_,_),
+        length(Adjacencia,Tam).
 
 %Identifica cidade pelo id e devolve nome.
-cidadeNome((ID,_,_), Nome):- cidade(ID,_,_,Nome,_,_,_,_,_,_).
-
-
-
-
-
-
-
-
+cidadeNome(ID, Nome):- cidade(ID,_,_,Nome,_,_,_,_,_,_).
 
 
 
@@ -86,16 +95,20 @@ cidadeNome((ID,_,_), Nome):- cidade(ID,_,_,Nome,_,_,_,_,_,_).
 % Verifica se uma cidade tem poderes administrativos minor
 cidadeMinor(IDCidade) :- cidade(IDCidade, _, _, _, _, PoderesAdminist, _, _, _, _), PoderesAdminist == 'minor'.
 
+% Verifica se uma cidade é património mundial
+semPatrimonio(IDCidade) :- cidade(IDCidade, _, _, _, _, _, _, 0, _, _).
+
 
 % Verifica se uma cidade tem castelo
-cidadeComCastelo(IDCidade) :- cidade(IDCidade, _, _, _, _, _, _, _, Castelo, _), Castelo == 1.
+cidadeComCastelo(IDCidade) :- cidade(IDCidade, _, _, _, _, _, _, _, 1, _).
 
 % Verifica se uma cidade é patrimonio mundial
-cidadePatrimonioMundial(IDCidade) :- cidade(IDCidade, _, _, _, _, _, _, PatrimonioMundial, _, _), PatrimonioMundial == 1.
+cidadePatrimonioMundial(IDCidade) :- cidade(IDCidade, _, _, _, _, _, _, 1, _, _).
 
 %Verifica se uma cidade tem mais de cem mil habitantes
-cidadePopulosa(IDCidade) :- cidade(IDCidade, _, _, _, _, _, _, _, _, Habitantes), Habitantes == 1.
+cidadePopulosa(IDCidade) :- cidade(IDCidade, _, _, _, _, _, _, _, _, 1).
 
 
-%Exclui cidades com Castelos ou se o seu responsável administrativos for Viseu
-excluiCidade(IDCidade) :- cidade(IDCidade, _, _, _, responsavelAdmin, _, _, _, Castelo, _), Castelo == 0, responsavelAdmin \= 'Viseu'.
+% Escreve uma lista com \n entre os elementos
+escrever([]).
+escrever([X|L]):- write(X), nl, escrever(L).
