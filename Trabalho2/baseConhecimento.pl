@@ -2,7 +2,7 @@
 
 %-------------------------------Base de Conhecimento------------------------------ 
 %-------------------------------------------------------------  
-%Cidade: Id,Lat,Long, Nome, RespAdminist, PoderesAdminist, CidadesAdjac,PatrimMundial, Castelos, CemMilHabit -> {V,F}
+%Cidade: Id,Lat,Long,Designacao,RespAdminist, PoderesAdminist, CidadesAdjac,PatrimMundial, Castelos, CemMilHabit -> {V,F} 
 
 cidade(4,40.176914,-8.424018,'Copeira','Coimbra','minor',[43, 54, 58, 71, 80, 95, 115, 125, 129, 133, 134, 138, 154, 159, 191, 197, 201, 222, 227, 241, 250, 270, 278],0,0,0).
 cidade(237,41.014442,-7.781432,'Tarouca','Viseu','minor',[15, 17, 22, 35, 36, 38, 85, 93, 97, 102, 103, 105, 106, 114, 116, 126, 167, 173, 194, 200, 206, 255, 269, 275],0,0,0).

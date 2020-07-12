@@ -26,8 +26,6 @@
 
 % a) Calcular um trajeto possível entre duas cidades;
 
-% TODO: IMPRIMIR Caminho todo
-
 
 %--------------- Pesquisa Depth First - Pesquisa em Profundidade
 %Expandir sempre um dos nós mais profundos da árvore
@@ -81,6 +79,42 @@ breadthFirst([(Estado, Vs)|Xs]-Ys, Historico, Destino, Caminho):-
     breadthFirst(Xs-Zs, [Estado|Historico], Destino, Caminho).
 
 
+%--Pesquisa A*
+
+pesquisaAestrela(Origem, Destino, Caminho/Custo) :-
+    estima(Origem,Destino,Estima),
+aestrela([[(0,Origem,_)]/0/Estima], Destino, CaminhoInvertido/Custo/_),
+    inverso(CaminhoInvertido, Caminho).
+
+%condicao de paragem - destino na cabeça da lista do caminho
+aestrela(Caminhos, Destino, Caminho) :-
+    obtem_melhor(Caminhos, Caminho),
+    Caminho = [(_,Nodo,_)|_]/_/_,Nodo == Destino.
+
+aestrela(Caminhos, Destino, SolucaoCaminho) :-
+    obtem_melhor(Caminhos, MelhorCaminho),
+    seleciona(MelhorCaminho, Caminhos, OutrosCaminhos),
+    expande_aestrela(MelhorCaminho, Destino, ExpCaminhos),
+    append(OutrosCaminhos, ExpCaminhos, NovoCaminhos),
+        aestrela(NovoCaminhos, Destino, SolucaoCaminho).
+
+%--Pesquisa Gulosa
+
+pesquisaGulosa(Origem, Destino, Caminho/Custo) :-
+    estima(Origem,Destino,Estima),
+aestrela([[(0,Origem,_)]/0/Estima], Destino, CaminhoInvertido/Custo/_),
+    inverso(CaminhoInvertido, Caminho).
+
+gulosa(Caminhos, Destino, Caminho) :-
+obtem_melhor_gulosa(Caminhos, Caminho),
+    Caminho = [(_,Nodo,_)|_]/_/_,Nodo == Destino.
+
+gulosa(Caminhos, Destino, SolucaoCaminho) :-
+    obtem_melhor_gulosa(Caminhos, MelhorCaminho),
+    seleciona(MelhorCaminho, Caminhos, OutrosCaminhos),
+    expande_aestrela(MelhorCaminho, Destino, ExpCaminhos),
+    append(OutrosCaminhos, ExpCaminhos, NovoCaminhos),
+        gulosa(NovoCaminhos, Destino, SolucaoCaminho).
 
 
 
@@ -107,7 +141,34 @@ apenasCidadesComCastelo(Origem, Destino, Visitados, [(Origem, ProxNodo, Distanci
         tamanhoLista(Caminho, Total),
         Total < 115.
 
+
+%--Pesquisa A*
+
+aestrelaSoCastelos(Origem, Destino, Caminho/Custo) :-
+    cidadeComCastelo(Origem),
+    estima(Origem,Destino,Estima),
+    aEstrelaCastelos([[(0,Origem,_)]/0/Estima], Destino,CaminhoInvertido/Custo/_),
+    inverso(CaminhoInvertido, Caminho).
+
+aEstrelaCastelos(Caminhos, Destino, Caminho) :-
+    obtem_melhor(Caminhos, Caminho),
+    Caminho = [(_,Nodo,_)|_]/_/_,Nodo == Destino.
+
+aEstrelaCastelos(Caminhos, Destino, SolucaoCaminho) :-
+    obtem_melhor(Caminhos, MelhorCaminho),
+    seleciona(MelhorCaminho, Caminhos, OutrosCaminhos),
+    expande_aestrelaCastelos(MelhorCaminho, Destino, ExpCaminhos),
+    append(OutrosCaminhos, ExpCaminhos, NovoCaminhos),
+        aEstrelaCastelos(NovoCaminhos, Destino, SolucaoCaminho).
+
+expande_aestrelaCastelos(Caminho, Destino, ExpCaminhos) :-
+    findall(NovoCaminho, adjacenteComCastelo(Caminho,Destino,NovoCaminho), ExpCaminhos).
+
+
+
 % b.2) Apenas cidades Património Mundial
+
+%--Pesquisa em Profundidade Limitada
 
 apenasCidadesPatrimonio(Origem, Destino, Caminho):-
     cidadePatrimonioMundial(Origem),
@@ -123,6 +184,32 @@ apenasCidadesPatrimonio(Origem, Destino, Visitados, [(Origem, ProxNodo, Distanci
     apenasCidadesPatrimonio(ProxNodo, Destino, [ProxNodo|Visitados], Caminho),
         tamanhoLista(Caminho, Total),
         Total < 115.
+
+%--Pesquisa A*
+
+aestrelaPatrimonioMundial(Origem, Destino, Caminho/Custo) :-
+    cidadePatrimonioMundial(Origem),
+    estima(Origem,Destino,Estima),
+    aEstrelaPatrimonio([[(0,Origem,_)]/0/Estima], Destino,CaminhoInvertido/Custo/_),
+    inverso(CaminhoInvertido, Caminho).
+
+aEstrelaPatrimonio(Caminhos, Destino, Caminho) :-
+    obtem_melhor(Caminhos, Caminho),
+    Caminho = [(_,Nodo,_)|_]/_/_,Nodo == Destino.
+
+aEstrelaPatrimonio(Caminhos, Destino, SolucaoCaminho) :-
+    obtem_melhor(Caminhos, MelhorCaminho),
+    seleciona(MelhorCaminho, Caminhos, OutrosCaminhos),
+    expande_aestrelaPatrimonio(MelhorCaminho, Destino, ExpCaminhos),
+    append(OutrosCaminhos, ExpCaminhos, NovoCaminhos),
+        aEstrelaPatrimonio(NovoCaminhos, Destino, SolucaoCaminho).
+
+expande_aestrelaPatrimonio(Caminho, Destino, ExpCaminhos) :-
+    findall(NovoCaminho, adjacentePatrimonio(Caminho,Destino,NovoCaminho), ExpCaminhos).
+
+
+
+
 
 % b.3) Apenas cidades com mais de cem mil habitantes
 
@@ -140,6 +227,31 @@ apenasCidadesPopulosas(Origem, Destino, Visitados, [(Origem, ProxNodo, Distancia
     apenasCidadesPopulosas(ProxNodo, Destino, [ProxNodo|Visitados], Caminho),
         tamanhoLista(Caminho, Total),
         Total < 115.
+
+
+
+%--Pesquisa A*
+
+
+aestrelaPopulosa(Origem, Destino, Caminho/Custo) :-
+    cidadePopulosa(Origem),
+    estima(Origem,Destino,Estima),
+    aestrelaPopulosaAux([[(0,Origem,_)]/0/Estima], Destino,CaminhoInvertido/Custo/_),
+    inverso(CaminhoInvertido, Caminho).
+
+aestrelaPopulosaAux(Caminhos, Destino, Caminho) :-
+    obtem_melhor(Caminhos, Caminho),
+    Caminho = [(_,Nodo,_)|_]/_/_,Nodo == Destino.
+
+aestrelaPopulosaAux(Caminhos, Destino, SolucaoCaminho) :-
+    obtem_melhor(Caminhos, MelhorCaminho),
+    seleciona(MelhorCaminho, Caminhos, OutrosCaminhos),
+    expande_aestrelaPopulosa(MelhorCaminho, Destino, ExpCaminhos),
+    append(OutrosCaminhos, ExpCaminhos, NovoCaminhos),
+        aestrelaPopulosaAux(NovoCaminhos, Destino, SolucaoCaminho).
+
+expande_aestrelaPopulosa(Caminho, Destino, ExpCaminhos) :-
+    findall(NovoCaminho, adjacentePopulosa(Caminho,Destino,NovoCaminho), ExpCaminhos).
 
 
 %--------------------------------------------------------
@@ -162,6 +274,31 @@ caminhoSemPatrimonioMundial(Origem, Destino, Visitados, [(Origem, ProxNodo, Dist
     caminhoSemPatrimonioMundial(ProxNodo, Destino, [ProxNodo|Visitados], Caminho),
         tamanhoLista(Caminho, Total),
         Total < 115.
+
+
+%--Pesquisa A*
+
+
+aestrelaSemPatrimonioMundial(Origem, Destino, Caminho/Custo) :-
+    semPatrimonio(Origem),
+    estima(Origem,Destino,Estima),
+    aestrelaSemPatrimonio([[(0,Origem,_)]/0/Estima], Destino,CaminhoInvertido/Custo/_),
+    inverso(CaminhoInvertido, Caminho).
+
+aestrelaSemPatrimonio(Caminhos, Destino, Caminho) :-
+    obtem_melhor(Caminhos, Caminho),
+    Caminho = [(_,Nodo,_)|_]/_/_,Nodo == Destino.
+
+aestrelaSemPatrimonio(Caminhos, Destino, SolucaoCaminho) :-
+    obtem_melhor(Caminhos, MelhorCaminho),
+    seleciona(MelhorCaminho, Caminhos, OutrosCaminhos),
+    expande_aestrelaSemPatrimonio(MelhorCaminho, Destino, ExpCaminhos),
+    append(OutrosCaminhos, ExpCaminhos, NovoCaminhos),
+        aestrelaSemPatrimonio(NovoCaminhos, Destino, SolucaoCaminho).
+
+expande_aestrelaSemPatrimonio(Caminho, Destino, ExpCaminhos) :-
+    findall(NovoCaminho, adjacenteSemPatrimonio(Caminho,Destino,NovoCaminho), ExpCaminhos).
+
 
 
 
@@ -206,36 +343,67 @@ menorLista(Lista, Caminho).
 %--------------------------------------------------------
 % f) Escolher o percurso mais rápido (usando o critério da distância);
 
-%TODO: NÃO FUNCIONA!!!!
+%Não funciona com a BC grande
 
 %----Pesquisa em Profundidade Limitada
 
-depthFirstMenorDistancia(Origem, Destino, Caminho, Custo):-
-    depthFirstMenorDistancia( Origem, Destino, [Origem], Caminho, Custo).
 
-depthFirstMenorDistancia(Destino, Destino, _, [],0).
-depthFirstMenorDistancia(Origem, Destino, Visitados, [(Origem, ProxNodo, Distancia)|Caminho], Custo) :-
-    tamanhoLista(Visitados, Total),
-        Total < 200,
-    proximoNodo(Origem, ProxNodo, Distancia, Visitados),
-    depthFirstMenorDistancia(ProxNodo, Destino, [ProxNodo|Visitados], Caminho, CustoVisitados),
-        tamanhoLista(Caminho, TotalV),
+maisRapido(Origem, Destino, Caminho, Distancia):- findall((Trajecto, DistanciaTotal),
+    pesquisaProfundidadeComDistancia(Origem, Destino, Trajecto, DistanciaTotal),
+L),
+minimo(L, (Caminho,Distancia)).
+
+
+pesquisaProfundidadeComDistancia(Origem, Destino, Caminho, Custo):-
+    pesquisaProfundidadeComDistancia( Origem, Destino, [Origem], Caminho, Custo).
+
+pesquisaProfundidadeComDistancia(Destino, Destino, _, [],0).
+pesquisaProfundidadeComDistancia(Origem, Destino, Visitados, [(Origem, ProxNodo, Distancia)|Caminho], Custo) :-
+    tamanhoLista(Visitados, TotalV),
         TotalV < 200,
+    proximoNodo(Origem, ProxNodo, Distancia, Visitados),
+    pesquisaProfundidadeComDistancia(ProxNodo, Destino, [ProxNodo|Visitados], Caminho, CustoVisitados),
+        tamanhoLista(Caminho, Total),
+        Total < 200,
         Custo is Distancia + CustoVisitados.
 
 
-%Procura o caminho mais rápido com o template de retorno (Trajceto, Distancia), coloca o resultado em L e depois verifica qual o menor trajecto que está em L e coloca-o em (Caminho, Distancia).
+%--Pesquisa A*
 
-maisRapido(Origem, Destino, Caminho, Distancia):- findall((Trajecto, DistanciaTotal),
-    depthFirstMenorDistancia(Origem, Destino, Trajecto, DistanciaTotal),
-    L),
-    minimo(L, (Caminho,Distancia)).
+pesquisaAestrela(Origem, Destino, Caminho/Custo) :-
+    estima(Origem,Destino,Estima),
+aestrela([[(0,Origem,_)]/0/Estima], Destino, CaminhoInvertido/Custo/_),
+    inverso(CaminhoInvertido, Caminho).
 
+%condicao de paragem - destino na cabeça da lista do caminho
+aestrela(Caminhos, Destino, Caminho) :-
+    obtem_melhor(Caminhos, Caminho),
+    Caminho = [(_,Nodo,_)|_]/_/_,Nodo == Destino.
 
+aestrela(Caminhos, Destino, SolucaoCaminho) :-
+    obtem_melhor(Caminhos, MelhorCaminho),
+    seleciona(MelhorCaminho, Caminhos, OutrosCaminhos),
+    expande_aestrela(MelhorCaminho, Destino, ExpCaminhos),
+    append(OutrosCaminhos, ExpCaminhos, NovoCaminhos),
+        aestrela(NovoCaminhos, Destino, SolucaoCaminho).
 
+%--Pesquisa Gulosa
 
+pesquisaGulosa(Origem, Destino, Caminho/Custo) :-
+    estima(Origem,Destino,Estima),
+aestrela([[(0,Origem,_)]/0/Estima], Destino, CaminhoInvertido/Custo/_),
+    inverso(CaminhoInvertido, Caminho).
 
+gulosa(Caminhos, Destino, Caminho) :-
+obtem_melhor_gulosa(Caminhos, Caminho),
+    Caminho = [(_,Nodo,_)|_]/_/_,Nodo == Destino.
 
+gulosa(Caminhos, Destino, SolucaoCaminho) :-
+    obtem_melhor_gulosa(Caminhos, MelhorCaminho),
+    seleciona(MelhorCaminho, Caminhos, OutrosCaminhos),
+    expande_aestrela(MelhorCaminho, Destino, ExpCaminhos),
+    append(OutrosCaminhos, ExpCaminhos, NovoCaminhos),
+        gulosa(NovoCaminhos, Destino, SolucaoCaminho).
 
 
 %--------------------------------------------------------
@@ -260,6 +428,52 @@ apenasCidadesMinor(Origem, Destino, Visitados, [(Origem, ProxNodo, Distancia)|Ca
         Total < 115.
 
 
+%--Pesquisa A*
+
+aestrelaCidadesMinor(Origem, Destino, Caminho/Custo) :-
+    cidadeMinor(Origem),
+    estima(Origem,Destino,Estima),
+    aEstrelaMinor([[(0,Origem,_)]/0/Estima], Destino,CaminhoInvertido/Custo/_),
+    inverso(CaminhoInvertido, Caminho).
+
+aEstrelaMinor(Caminhos, Destino, Caminho) :-
+    obtem_melhor(Caminhos, Caminho),
+    Caminho = [(_,Nodo,_)|_]/_/_,Nodo == Destino.
+
+aEstrelaMinor(Caminhos, Destino, SolucaoCaminho) :-
+    obtem_melhor(Caminhos, MelhorCaminho),
+    seleciona(MelhorCaminho, Caminhos, OutrosCaminhos),
+    expande_aestrelaMinor(MelhorCaminho, Destino, ExpCaminhos),
+    append(OutrosCaminhos, ExpCaminhos, NovoCaminhos),
+        aEstrelaMinor(NovoCaminhos, Destino, SolucaoCaminho).
+
+expande_aestrelaMinor(Caminho, Destino, ExpCaminhos) :-
+    findall(NovoCaminho, adjacenteMinor(Caminho,Destino,NovoCaminho), ExpCaminhos).
+
+
+%--Pesquisa Gulosa
+
+gulosaCidadesMinor(Origem, Destino, Caminho/Custo) :-
+    cidadeMinor(Origem),
+    estima(Origem,Destino,Estima),
+    aEstrelaMinor([[(0,Origem,_)]/0/Estima], Destino,CaminhoInvertido/Custo/_),
+    inverso(CaminhoInvertido, Caminho).
+
+aEstrelaMinor(Caminhos, Destino, Caminho) :-
+    obtem_melhor_gulosa(Caminhos, Caminho),
+    Caminho = [(_,Nodo,_)|_]/_/_,Nodo == Destino.
+
+aEstrelaMinor(Caminhos, Destino, SolucaoCaminho) :-
+    obtem_melhor_gulosa(Caminhos, MelhorCaminho),
+    seleciona(MelhorCaminho, Caminhos, OutrosCaminhos),
+    expande_aestrelaMinor(MelhorCaminho, Destino, ExpCaminhos),
+    append(OutrosCaminhos, ExpCaminhos, NovoCaminhos),
+        aEstrelaMinor(NovoCaminhos, Destino, SolucaoCaminho).
+
+expande_aestrelaMinor(Caminho, Destino, ExpCaminhos) :-
+    findall(NovoCaminho, adjacenteMinor(Caminho,Destino,NovoCaminho), ExpCaminhos).
+
+
 
 
 %--------------------------------------------------------
@@ -269,13 +483,16 @@ apenasCidadesMinor(Origem, Destino, Visitados, [(Origem, ProxNodo, Distancia)|Ca
 %--------------- Pesquisa em Profundidade
 
 
-%TODO: Não funciona, mas o de cidadesIntermedias funciona.
-
 percursoDF(Origem, Destino, CidadesIntermedias, Caminho):-
 findall(Percurso, pesquisaEmProfundidade(Origem,Destino,Percurso), L),
 cidadesIntermedias(L, CidadesIntermedias, Caminho).
 
-cidadesIntermedias(Percurso,CidadesIntermedias,Caminho).
+
+percursoBF(Origem, Destino, CidadesIntermedias, Caminho):-
+findall(Percurso, breadthFirst(Origem,Destino,Percurso), L),
+cidadesIntermedias(L, CidadesIntermedias, Caminho).
+
+
 
 cidadesIntermedias([Cidade|CaudaCidadesIntermedias], CidadesIntermedias, Caminho):-
     auxiliar(Cidade, CidadesIntermedias, Caminho);
@@ -283,7 +500,7 @@ cidadesIntermedias([Cidade|CaudaCidadesIntermedias], CidadesIntermedias, Caminho
 
 auxiliar(Caminho, [], Caminho).
 auxiliar(Caminho, [Cidade|CaudaCidadesIntermedias], Solucao):-
-    (member((Cidade, _, _), Caminho); member((_, Cidade, _), Caminho)),
+    (membro((Cidade, _, _), Caminho); membro((_, Cidade, _), Caminho)),
     auxiliar(Caminho, CaudaCidadesIntermedias, Solucao).
 
 
