@@ -58,6 +58,7 @@ menorLista([ListaX,ListaY|CaudaDeListas], Menor) :-
 
 menorLista([ListaX,ListaY|CaudaDeListas], Menor):- menorLista([ListaY|CaudaDeListas], Menor).
 
+
 % Calcula o minimo de uma lista de pares
 minimo([(P,X)], (P,X)).
 minimo([(Px,X)|L], (Py, Y)) :- minimo(L, (Py,Y)), X > Y.
@@ -126,7 +127,7 @@ obtem_melhor_gulosa([Caminho1/Custo1/Est1,_/Custo2/Est2|Caminhos], MelhorCaminho
     Est1 =< Est2, !,
     obtem_melhor_gulosa([Caminho1/Custo1/Est1|Caminhos],MelhorCaminho).
 
-                                                        
+obtem_melhor_gulosa([_|Caminhos],MelhorCaminho):- obtem_melhor_gulosa(Caminhos,MelhorCaminho).
 
 
 %melhor caminho para A*
@@ -193,6 +194,10 @@ adjacenteSemPatrimonio([(NodoAnterior, NodoActual, Distancia)
 adjacencia(NodoActual, ProxNodo, PassoCusto), semPatrimonio(ProxNodo), \+ member((Nodo,ProxNodo), Caminho),
     NovoCusto is Custo + PassoCusto,
     estima(ProxNodo,Destino,Estima).
+
+
+
+
 
 
 

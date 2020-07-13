@@ -102,7 +102,7 @@ aestrela(Caminhos, Destino, SolucaoCaminho) :-
 
 pesquisaGulosa(Origem, Destino, Caminho/Custo) :-
     estima(Origem,Destino,Estima),
-aestrela([[(0,Origem,_)]/0/Estima], Destino, CaminhoInvertido/Custo/_),
+gulosa([[(0,Origem,_)]/0/Estima], Destino, CaminhoInvertido/Custo/_),
     inverso(CaminhoInvertido, Caminho).
 
 gulosa(Caminhos, Destino, Caminho) :-
@@ -300,6 +300,24 @@ expande_aestrelaSemPatrimonio(Caminho, Destino, ExpCaminhos) :-
     findall(NovoCaminho, adjacenteSemPatrimonio(Caminho,Destino,NovoCaminho), ExpCaminhos).
 
 
+%--Pesquisa Gulosa
+
+pesquisaGulosaSemPatrimonio(Origem, Destino, Caminho/Custo) :-
+    semPatrimonio(Origem),
+    estima(Origem,Destino,Estima),
+    gulosa([[(0,Origem,_)]/0/Estima], Destino, CaminhoInvertido/Custo/_),
+    inverso(CaminhoInvertido, Caminho).
+
+gulosa(Caminhos, Destino, Caminho) :-
+obtem_melhor_gulosa(Caminhos, Caminho),
+    Caminho = [(_,Nodo,_)|_]/_/_,Nodo == Destino.
+
+gulosa(Caminhos, Destino, SolucaoCaminho) :-
+    obtem_melhor_gulosa(Caminhos, MelhorCaminho),
+    seleciona(MelhorCaminho, Caminhos, OutrosCaminhos),
+    expande_aestrelaSemPatrimonio(MelhorCaminho, Destino, ExpCaminhos),
+    append(OutrosCaminhos, ExpCaminhos, NovoCaminhos),
+        gulosa(NovoCaminhos, Destino, SolucaoCaminho).
 
 
 %--------------------------------------------------------
@@ -330,14 +348,11 @@ menorPercursoCidadesDF(Origem, Destino, Caminho):-
     menorLista(Lista, Caminho).
 
 
-
 %--Pesquisa em Largura
 
 menorPercursoCidadesBF(Origem, Destino, Caminho):-
 findall(Caminho, breadthFirst(Origem, Destino, Caminho), Lista),
 menorLista(Lista, Caminho).
-
-
 
 
 %--------------------------------------------------------
@@ -391,7 +406,7 @@ aestrela(Caminhos, Destino, SolucaoCaminho) :-
 
 pesquisaGulosa(Origem, Destino, Caminho/Custo) :-
     estima(Origem,Destino,Estima),
-aestrela([[(0,Origem,_)]/0/Estima], Destino, CaminhoInvertido/Custo/_),
+gulosa([[(0,Origem,_)]/0/Estima], Destino, CaminhoInvertido/Custo/_),
     inverso(CaminhoInvertido, Caminho).
 
 gulosa(Caminhos, Destino, Caminho) :-
@@ -456,14 +471,14 @@ expande_aestrelaMinor(Caminho, Destino, ExpCaminhos) :-
 gulosaCidadesMinor(Origem, Destino, Caminho/Custo) :-
     cidadeMinor(Origem),
     estima(Origem,Destino,Estima),
-    aEstrelaMinor([[(0,Origem,_)]/0/Estima], Destino,CaminhoInvertido/Custo/_),
+    gulosa([[(0,Origem,_)]/0/Estima], Destino,CaminhoInvertido/Custo/_),
     inverso(CaminhoInvertido, Caminho).
 
-aEstrelaMinor(Caminhos, Destino, Caminho) :-
+gulosa(Caminhos, Destino, Caminho) :-
     obtem_melhor_gulosa(Caminhos, Caminho),
     Caminho = [(_,Nodo,_)|_]/_/_,Nodo == Destino.
 
-aEstrelaMinor(Caminhos, Destino, SolucaoCaminho) :-
+gulosa(Caminhos, Destino, SolucaoCaminho) :-
     obtem_melhor_gulosa(Caminhos, MelhorCaminho),
     seleciona(MelhorCaminho, Caminhos, OutrosCaminhos),
     expande_aestrelaMinor(MelhorCaminho, Destino, ExpCaminhos),
